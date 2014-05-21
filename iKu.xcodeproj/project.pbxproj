@@ -223,11 +223,6 @@
 				CLASSPREFIX = IKU;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Brisk Synergies";
-				TargetAttributes = {
-					6B8CB14F192D29A900A119D5 = {
-						TestTargetID = 6B8CB134192D29A900A119D5;
-					};
-				};
 			};
 			buildConfigurationList = 6B8CB130192D29A900A119D5 /* Build configuration list for PBXProject "iKu" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -422,7 +417,6 @@
 		6B8CB165192D29A900A119D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iKu.app/iKu";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -436,7 +430,6 @@
 				);
 				INFOPLIST_FILE = "iKuTests/iKuTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -444,7 +437,6 @@
 		6B8CB166192D29A900A119D5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iKu.app/iKu";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -454,7 +446,6 @@
 				GCC_PREFIX_HEADER = "iKu/iKu-Prefix.pch";
 				INFOPLIST_FILE = "iKuTests/iKuTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

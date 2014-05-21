@@ -7,6 +7,7 @@
 //
 
 #import "IKUAppDelegate.h"
+#import "IKUMainViewController.h"
 
 @implementation IKUAppDelegate
 
@@ -14,6 +15,9 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    IKUMainViewController *mainVC = [[IKUMainViewController alloc]init];
+    self.window.rootViewController = mainVC;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

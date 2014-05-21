@@ -7,9 +7,12 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "IKUHaiku.h"
+#import "IKUHaikuSource.h"
+
 
 @interface iKuTests : XCTestCase
-
+@property (strong, nonatomic) IKUHaikuSource* haikuSource;
 @end
 
 @implementation iKuTests
@@ -17,6 +20,8 @@
 - (void)setUp
 {
     [super setUp];
+    self.haikuSource = [IKUHaikuSource sharedInstance];
+    [self.haikuSource _setupDebugData];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -28,7 +33,8 @@
 
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    IKUHaiku *h = [self.haikuSource nextHaiku];
+    XCTAssert(h, @"failed to return first haiku");
 }
 
 @end
