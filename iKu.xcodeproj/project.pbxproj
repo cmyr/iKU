@@ -19,6 +19,12 @@
 		6B8CB154192D29A900A119D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CB13C192D29A900A119D5 /* UIKit.framework */; };
 		6B8CB15C192D29A900A119D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6B8CB15A192D29A900A119D5 /* InfoPlist.strings */; };
 		6B8CB15E192D29A900A119D5 /* iKuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB15D192D29A900A119D5 /* iKuTests.m */; };
+		6B8CB16D192D2F3100A119D5 /* testhaiku.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B8CB16C192D2F3100A119D5 /* testhaiku.plist */; };
+		6B8CB16E192D2F3100A119D5 /* testhaiku.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B8CB16C192D2F3100A119D5 /* testhaiku.plist */; };
+		6B8CB171192D2FB900A119D5 /* IKUHaikuSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */; };
+		6B8CB172192D2FB900A119D5 /* IKUHaikuSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */; };
+		6B8CB175192D2FC700A119D5 /* IKUHaiku.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB174192D2FC700A119D5 /* IKUHaiku.m */; };
+		6B8CB176192D2FC700A119D5 /* IKUHaiku.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB174192D2FC700A119D5 /* IKUHaiku.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +54,11 @@
 		6B8CB159192D29A900A119D5 /* iKuTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iKuTests-Info.plist"; sourceTree = "<group>"; };
 		6B8CB15B192D29A900A119D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6B8CB15D192D29A900A119D5 /* iKuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iKuTests.m; sourceTree = "<group>"; };
+		6B8CB16C192D2F3100A119D5 /* testhaiku.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = testhaiku.plist; sourceTree = "<group>"; };
+		6B8CB16F192D2FB900A119D5 /* IKUHaikuSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUHaikuSource.h; path = classes/IKUHaikuSource.h; sourceTree = "<group>"; };
+		6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUHaikuSource.m; path = classes/IKUHaikuSource.m; sourceTree = "<group>"; };
+		6B8CB173192D2FC700A119D5 /* IKUHaiku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUHaiku.h; path = classes/IKUHaiku.h; sourceTree = "<group>"; };
+		6B8CB174192D2FC700A119D5 /* IKUHaiku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUHaiku.m; path = classes/IKUHaiku.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +118,8 @@
 		6B8CB13E192D29A900A119D5 /* iKu */ = {
 			isa = PBXGroup;
 			children = (
+				6B8CB16B192D2E9900A119D5 /* resources */,
+				6B8CB16A192D2E8100A119D5 /* classes */,
 				6B8CB147192D29A900A119D5 /* IKUAppDelegate.h */,
 				6B8CB148192D29A900A119D5 /* IKUAppDelegate.m */,
 				6B8CB14A192D29A900A119D5 /* Images.xcassets */,
@@ -142,6 +155,25 @@
 				6B8CB15A192D29A900A119D5 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6B8CB16A192D2E8100A119D5 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				6B8CB16F192D2FB900A119D5 /* IKUHaikuSource.h */,
+				6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */,
+				6B8CB173192D2FC700A119D5 /* IKUHaiku.h */,
+				6B8CB174192D2FC700A119D5 /* IKUHaiku.m */,
+			);
+			name = classes;
+			sourceTree = "<group>";
+		};
+		6B8CB16B192D2E9900A119D5 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				6B8CB16C192D2F3100A119D5 /* testhaiku.plist */,
+			);
+			name = resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B8CB143192D29A900A119D5 /* InfoPlist.strings in Resources */,
+				6B8CB16D192D2F3100A119D5 /* testhaiku.plist in Resources */,
 				6B8CB14B192D29A900A119D5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B8CB15C192D29A900A119D5 /* InfoPlist.strings in Resources */,
+				6B8CB16E192D2F3100A119D5 /* testhaiku.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +274,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B8CB175192D2FC700A119D5 /* IKUHaiku.m in Sources */,
+				6B8CB171192D2FB900A119D5 /* IKUHaikuSource.m in Sources */,
 				6B8CB149192D29A900A119D5 /* IKUAppDelegate.m in Sources */,
 				6B8CB145192D29A900A119D5 /* main.m in Sources */,
 			);
@@ -250,6 +286,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B8CB15E192D29A900A119D5 /* iKuTests.m in Sources */,
+				6B8CB176192D2FC700A119D5 /* IKUHaiku.m in Sources */,
+				6B8CB172192D2FB900A119D5 /* IKUHaikuSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
