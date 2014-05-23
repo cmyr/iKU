@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B2EF102192FA5D20069B81A /* IKUSlideGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2EF100192FA5D20069B81A /* IKUSlideGestureRecognizer.m */; };
+		6B2EF105192FA9B30069B81A /* IKUHaikuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2EF104192FA9B30069B81A /* IKUHaikuView.m */; };
 		6B8CB139192D29A900A119D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CB138192D29A900A119D5 /* Foundation.framework */; };
 		6B8CB13B192D29A900A119D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CB13A192D29A900A119D5 /* CoreGraphics.framework */; };
 		6B8CB13D192D29A900A119D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CB13C192D29A900A119D5 /* UIKit.framework */; };
@@ -30,6 +32,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B2EF100192FA5D20069B81A /* IKUSlideGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUSlideGestureRecognizer.m; path = classes/IKUSlideGestureRecognizer.m; sourceTree = "<group>"; };
+		6B2EF101192FA5D20069B81A /* IKUSlideGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUSlideGestureRecognizer.h; path = classes/IKUSlideGestureRecognizer.h; sourceTree = "<group>"; };
+		6B2EF103192FA9B30069B81A /* IKUHaikuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUHaikuView.h; path = classes/IKUHaikuView.h; sourceTree = "<group>"; };
+		6B2EF104192FA9B30069B81A /* IKUHaikuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUHaikuView.m; path = classes/IKUHaikuView.m; sourceTree = "<group>"; };
 		6B8CB135192D29A900A119D5 /* iKu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iKu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B8CB138192D29A900A119D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6B8CB13A192D29A900A119D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -157,10 +163,14 @@
 			children = (
 				6B8CB179192D3B4500A119D5 /* IKUMainViewController.h */,
 				6B8CB17A192D3B4500A119D5 /* IKUMainViewController.m */,
+				6B2EF103192FA9B30069B81A /* IKUHaikuView.h */,
+				6B2EF104192FA9B30069B81A /* IKUHaikuView.m */,
 				6B8CB16F192D2FB900A119D5 /* IKUHaikuSource.h */,
 				6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */,
 				6B8CB173192D2FC700A119D5 /* IKUHaiku.h */,
 				6B8CB174192D2FC700A119D5 /* IKUHaiku.m */,
+				6B2EF100192FA5D20069B81A /* IKUSlideGestureRecognizer.m */,
+				6B2EF101192FA5D20069B81A /* IKUSlideGestureRecognizer.h */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -267,11 +277,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B2EF105192FA9B30069B81A /* IKUHaikuView.m in Sources */,
 				6B8CB175192D2FC700A119D5 /* IKUHaiku.m in Sources */,
 				6B8CB171192D2FB900A119D5 /* IKUHaikuSource.m in Sources */,
 				6B8CB149192D29A900A119D5 /* IKUAppDelegate.m in Sources */,
 				6B8CB17B192D3B4500A119D5 /* IKUMainViewController.m in Sources */,
 				6B8CB145192D29A900A119D5 /* main.m in Sources */,
+				6B2EF102192FA5D20069B81A /* IKUSlideGestureRecognizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +472,7 @@
 				6B8CB163192D29A900A119D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6B8CB164192D29A900A119D5 /* Build configuration list for PBXNativeTarget "iKuTests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +481,7 @@
 				6B8CB166192D29A900A119D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

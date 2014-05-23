@@ -9,13 +9,19 @@
 #import "IKUMainViewController.h"
 #import "IKUHaikuSource.h"
 #import "IKUHaiku.h"
-#import <AVFoundation/AVFoundation.h>
+#import "IKUHaikuView.h"
+#import "IKUSlideGestureRecognizer.h"
 
 @interface IKUMainViewController ()
 @property (strong, nonatomic) IKUHaikuSource* haikuSource;
-@property (weak, nonatomic) IBOutlet UILabel *haikuLabel;
+
+@property (strong, nonatomic, readonly) IKUHaikuView* viewOne;
+@property (strong, nonatomic, readonly) IKUHaikuView* viewTwo;
+@property (weak, nonatomic) IKUHaikuView *currentView;
+@property (weak, nonatomic) IKUHaikuView *nextView;
 @property (strong, nonatomic) UISwipeGestureRecognizer* swipe;
 @property (strong, nonatomic) IKUHaiku* haiku;
+@property (strong, nonatomic) NSArray* activeConstraints;
 @end
 
 @implementation IKUMainViewController
@@ -38,13 +44,16 @@
     [super viewDidLoad];
     self.haikuSource = [IKUHaikuSource sharedInstance];
     [self.haikuSource _setupDebugData];
-
+    [self setupGestureRecognizers];
+    [self setupInitialViews];
+    
+    //
     NSString *test = @"quite aware we're dying\
     let's pretend just for the night\
     Now, its time to change!";
-    
+
     [self setText:test];
-    [self setupGestureRecognizers];
+
     // Do any additional setup after loading the view.
 }
 
@@ -54,13 +63,24 @@
     // Dispose of any resources that can be recreated.
 }
 
-
--(void)setText:(NSString*)text {
-    self.haikuLabel.text = text;
-    self.haikuLabel.adjustsFontSizeToFitWidth = YES;
-    self.haikuLabel.minimumScaleFactor = 0.4f;
+-(void)setupInitialViews {
+    _viewOne = [[IKUHaikuView alloc]init];
+    _viewTwo = [[IKUHaikuView alloc]init];
+    self.viewOne.translatesAutoresizingMaskIntoConstraints = NO;
+    self.viewTwo.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [self.haikuLabel sizeToFit];
+    self.currentView = self.viewOne;
+    self.nextView = self.viewTwo;
+    
+    [self.view addSubview:self.viewOne];
+    [self.view addSubview:self.viewTwo];
+    
+    self.viewOne.backgroundColor = [UIColor colorWithRed:1.000 green:0.678 blue:0.000 alpha:1.000];
+    self.viewTwo.backgroundColor = [UIColor colorWithRed:0.000 green:0.308 blue:1.000 alpha:1.000];
+    
+    [self setConstraintsForDisplayedView:self.viewOne
+                                nextView:self.viewTwo];
+    [self.view updateConstraints];
     
 }
 

@@ -15,27 +15,8 @@
                     <view key="view" contentMode="scaleToFill" id="jdc-3s-6Zy">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="ETK-Yh-iBc">
-                                <rect key="frame" x="20" y="220" width="280" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <string key="text">quite aware we're dying
-let's pretend just for the night
-Now, its time to change!</string>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerY" secondItem="ETK-Yh-iBc" secondAttribute="centerY" id="l1O-eZ-trc"/>
-                            <constraint firstAttribute="centerX" secondItem="ETK-Yh-iBc" secondAttribute="centerX" id="pWH-zL-GyJ"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="haikuLabel" destination="ETK-Yh-iBc" id="gE5-vA-w5m"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QG7-9g-JLW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
