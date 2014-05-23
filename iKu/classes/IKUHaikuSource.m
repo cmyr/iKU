@@ -52,7 +52,17 @@
 #pragma mark - debug stuff
 
 -(void)_setupDebugData {
-    self.haikuArray = [self _debugHaikuFromPlist:nil];
+    NSArray *haikuDicts = [self _debugHaikuFromPlist:nil];
+    NSMutableArray *haikuArray = [NSMutableArray array];
+    
+    [haikuDicts enumerateObjectsWithOptions:0
+                                 usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                     if ([obj isKindOfClass:[NSDictionary class]]) {
+                                         IKUHaiku *newHaiku = [[IKUHaiku alloc]initWithDict:obj];
+                                         [haikuArray addObject:newHaiku];
+                                     }
+                                 }];
+    self.haikuArray = [haikuArray copy];
 }
 
 -(NSArray*)_debugHaikuFromPlist:(NSString*)plistName {

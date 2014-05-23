@@ -22,20 +22,12 @@
 		6B8CB16D192D2F3100A119D5 /* testhaiku.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B8CB16C192D2F3100A119D5 /* testhaiku.plist */; };
 		6B8CB16E192D2F3100A119D5 /* testhaiku.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B8CB16C192D2F3100A119D5 /* testhaiku.plist */; };
 		6B8CB171192D2FB900A119D5 /* IKUHaikuSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */; };
-		6B8CB172192D2FB900A119D5 /* IKUHaikuSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */; };
 		6B8CB175192D2FC700A119D5 /* IKUHaiku.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB174192D2FC700A119D5 /* IKUHaiku.m */; };
-		6B8CB176192D2FC700A119D5 /* IKUHaiku.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB174192D2FC700A119D5 /* IKUHaiku.m */; };
+		6B8CB177192D37A500A119D5 /* IKUHaikuSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */; };
+		6B8CB178192D37A500A119D5 /* IKUHaiku.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB174192D2FC700A119D5 /* IKUHaiku.m */; };
+		6B8CB17B192D3B4500A119D5 /* IKUMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CB17A192D3B4500A119D5 /* IKUMainViewController.m */; };
+		6B8CB17D192D3CE000A119D5 /* iphone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B8CB17C192D3CE000A119D5 /* iphone.storyboard */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		6B8CB155192D29A900A119D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B8CB12D192D29A900A119D5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6B8CB134192D29A900A119D5;
-			remoteInfo = iKu;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6B8CB135192D29A900A119D5 /* iKu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iKu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +51,9 @@
 		6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUHaikuSource.m; path = classes/IKUHaikuSource.m; sourceTree = "<group>"; };
 		6B8CB173192D2FC700A119D5 /* IKUHaiku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUHaiku.h; path = classes/IKUHaiku.h; sourceTree = "<group>"; };
 		6B8CB174192D2FC700A119D5 /* IKUHaiku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUHaiku.m; path = classes/IKUHaiku.m; sourceTree = "<group>"; };
+		6B8CB179192D3B4500A119D5 /* IKUMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUMainViewController.h; path = classes/IKUMainViewController.h; sourceTree = "<group>"; };
+		6B8CB17A192D3B4500A119D5 /* IKUMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUMainViewController.m; path = classes/IKUMainViewController.m; sourceTree = "<group>"; };
+		6B8CB17C192D3CE000A119D5 /* iphone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = iphone.storyboard; path = resources/iphone.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +155,8 @@
 		6B8CB16A192D2E8100A119D5 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				6B8CB179192D3B4500A119D5 /* IKUMainViewController.h */,
+				6B8CB17A192D3B4500A119D5 /* IKUMainViewController.m */,
 				6B8CB16F192D2FB900A119D5 /* IKUHaikuSource.h */,
 				6B8CB170192D2FB900A119D5 /* IKUHaikuSource.m */,
 				6B8CB173192D2FC700A119D5 /* IKUHaiku.h */,
@@ -171,6 +168,7 @@
 		6B8CB16B192D2E9900A119D5 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				6B8CB17C192D3CE000A119D5 /* iphone.storyboard */,
 				6B8CB16C192D2F3100A119D5 /* testhaiku.plist */,
 			);
 			name = resources;
@@ -207,7 +205,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				6B8CB156192D29A900A119D5 /* PBXTargetDependency */,
 			);
 			name = iKuTests;
 			productName = iKuTests;
@@ -250,6 +247,7 @@
 				6B8CB143192D29A900A119D5 /* InfoPlist.strings in Resources */,
 				6B8CB16D192D2F3100A119D5 /* testhaiku.plist in Resources */,
 				6B8CB14B192D29A900A119D5 /* Images.xcassets in Resources */,
+				6B8CB17D192D3CE000A119D5 /* iphone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +270,7 @@
 				6B8CB175192D2FC700A119D5 /* IKUHaiku.m in Sources */,
 				6B8CB171192D2FB900A119D5 /* IKUHaikuSource.m in Sources */,
 				6B8CB149192D29A900A119D5 /* IKUAppDelegate.m in Sources */,
+				6B8CB17B192D3B4500A119D5 /* IKUMainViewController.m in Sources */,
 				6B8CB145192D29A900A119D5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,20 +280,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B8CB15E192D29A900A119D5 /* iKuTests.m in Sources */,
-				6B8CB176192D2FC700A119D5 /* IKUHaiku.m in Sources */,
-				6B8CB172192D2FB900A119D5 /* IKUHaikuSource.m in Sources */,
+				6B8CB178192D37A500A119D5 /* IKUHaiku.m in Sources */,
+				6B8CB177192D37A500A119D5 /* IKUHaikuSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		6B8CB156192D29A900A119D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6B8CB134192D29A900A119D5 /* iKu */;
-			targetProxy = 6B8CB155192D29A900A119D5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6B8CB141192D29A900A119D5 /* InfoPlist.strings */ = {

@@ -9,12 +9,18 @@
 #import "IKUMainViewController.h"
 #import "IKUHaikuSource.h"
 #import "IKUHaiku.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface IKUMainViewController ()
 @property (strong, nonatomic) IKUHaikuSource* haikuSource;
+@property (weak, nonatomic) IBOutlet UILabel *haikuLabel;
+@property (strong, nonatomic) UISwipeGestureRecognizer* swipe;
+@property (strong, nonatomic) IKUHaiku* haiku;
 @end
 
 @implementation IKUMainViewController
+
+#pragma mark - init and instantiations
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,12 +31,20 @@
     return self;
 }
 
+#pragma mark - lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.haikuSource = [IKUHaikuSource sharedInstance];
     [self.haikuSource _setupDebugData];
+
+    NSString *test = @"quite aware we're dying\
+    let's pretend just for the night\
+    Now, its time to change!";
     
+    [self setText:test];
+    [self setupGestureRecognizers];
     // Do any additional setup after loading the view.
 }
 
@@ -38,6 +52,41 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void)setText:(NSString*)text {
+    self.haikuLabel.text = text;
+    self.haikuLabel.adjustsFontSizeToFitWidth = YES;
+    self.haikuLabel.minimumScaleFactor = 0.4f;
+    
+    [self.haikuLabel sizeToFit];
+    
+}
+
+#pragma mark - animation and view updating
+
+-(void)displayHaiku:(IKUHaiku*)haiku {
+    self.haiku = haiku;
+    [self setText:haiku.text];
+    
+}
+
+#pragma mark - gesture handling
+
+
+-(void)setupGestureRecognizers {
+    self.swipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeGestureDetected:)];
+    self.swipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:self.swipe];
+}
+
+
+-(void)swipeGestureDetected:(id)sender {
+    IKUHaiku *haiku = [self.haikuSource nextHaiku];
+    if (haiku) {
+        [self displayHaiku:haiku];
+    }
 }
 
 /*
