@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 
-@interface IKUHaikuView : UIView
+@class IKUHaiku;
 
+@interface IKUHaikuView : UIView
+@property (strong, nonatomic) IKUHaiku* haiku;
 @property (strong, nonatomic) UILabel* textLabel;
 @end

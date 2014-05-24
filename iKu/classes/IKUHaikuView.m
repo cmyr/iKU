@@ -7,6 +7,8 @@
 //
 
 #import "IKUHaikuView.h"
+#import "IKUHaiku.h"
+
 
 @implementation IKUHaikuView
 
@@ -55,6 +57,17 @@
     return self;
 }
 
+-(void)setHaiku:(IKUHaiku *)haiku {
+    if (haiku != _haiku) {
+        _haiku = haiku;
+//        layout haiku as needed
+        self.textLabel.text = haiku.text;
+        self.textLabel.adjustsFontSizeToFitWidth = YES;
+        self.textLabel.minimumScaleFactor = 0.4f;
+        
+        [self.textLabel sizeToFit];
+    }
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
