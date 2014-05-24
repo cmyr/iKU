@@ -10,7 +10,6 @@
 #import "IKUHaikuSource.h"
 #import "IKUHaiku.h"
 #import "IKUHaikuView.h"
-#import "IKUSlideGestureRecognizer.h"
 
 @interface IKUMainViewController ()
 @property (strong, nonatomic) IKUHaikuSource* haikuSource;
