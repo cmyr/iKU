@@ -12,6 +12,7 @@
 #import "IKUHaikuView.h"
 
 @interface IKUMainViewController ()
+
 @property (strong, nonatomic) IKUHaikuSource* haikuSource;
 @property (strong, nonatomic, readonly) IKUHaikuView* viewOne;
 @property (strong, nonatomic, readonly) IKUHaikuView* viewTwo;
@@ -80,8 +81,8 @@
     self.currentView = self.viewOne;
     self.nextView = self.viewTwo;
     
-    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
-    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
+//    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
+//    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];
     
@@ -102,9 +103,15 @@
     }
 }
 
--(void)animateToNextView {
+-(void)animateToNextView:(CGFloat)velocity {
     [self.view layoutIfNeeded];
-    [UIView animateWithDuration:0.3f
+    CGFloat distanceToTravel = self.nextView.center.x - self.view.center.x;
+    NSTimeInterval animationDuration = distanceToTravel / fabsf(velocity);
+//    set max time interval
+    animationDuration = fminf(animationDuration, 0.3f);
+    
+    
+    [UIView animateWithDuration:animationDuration
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
@@ -124,25 +131,30 @@
                          [self layoutHaikuViews];
 //                         [self setConstraintsForHaikuViews];
                      }];
+
 }
 
--(void)animateToOriginalPosition {
-//    self.leftAlignConstraint.constant = 0.0f;
-//    self.animator = [[UIDynamicAnimator alloc]initWithReferenceView:self.view];
-//    UISnapBehavior *snap = [[UISnapBehavior alloc]initWithItem:self.currentView snapToPoint:self.view.center];
-//    UISnapBehavior *snap2 = [[UISnapBehavior alloc]initWithItem:self.nextView snapToPoint:CGPointMake(self.view.center.x + self.view.frame.size.width, self.view.center.y)];
-//
-////    snap.damping = 0.5f;
-//    [self.animator addBehavior:snap];
-//    [self.animator addBehavior:snap2];
-    
-    [self.view layoutIfNeeded];
-    [UIView animateWithDuration:0.5f
+#define DEFAULT_ANIMATION_VELOCITY 200.0f
+
+-(void)animateToOriginalPosition:(CGFloat)velocity {
+    NSTimeInterval animationDuration;
+
+    if (velocity < DEFAULT_ANIMATION_VELOCITY) {
+        velocity = DEFAULT_ANIMATION_VELOCITY;
+    }
+    CGFloat distanceToTravel = self.view.center.x - self.currentView.center.x;
+    animationDuration = distanceToTravel / velocity;
+
+//    set a max animation duration
+    animationDuration = fminf(animationDuration, 0.3f);
+
+    [UIView animateWithDuration:animationDuration
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          self.view.backgroundColor = self.currentView.preferredBackgroundColor;
                          self.currentView.center = self.view.center;
+                         self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
 //                         self.leftAlignConstraint.constant = 0.0f;
 //                         [self.view layoutIfNeeded];
                      }
@@ -161,6 +173,7 @@
 
 #pragma mark - gesture handling
 
+#define DEFAULT_PAN_DAMPING 0.2f
 
 -(void)setupGestureRecognizers {
     self.pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGesture:)];
@@ -188,11 +201,16 @@
         }
         case UIGestureRecognizerStateEnded: {
             CGPoint touchLocation = [self.pan locationInView:self.view];
-            CGFloat panDistance = self.initialPanPoint.x - touchLocation.x;
-            if (panDistance > self.currentView.frame.size.width * 0.33f) {
-                [self animateToNextView];
+            CGFloat panDistance = touchLocation.x - self.initialPanPoint.x;
+            CGFloat hVelocity = [gesture velocityInView:self.view].x;
+            CGFloat inertialModifier =  restPointForVelocity(0.0f, hVelocity, DEFAULT_PAN_DAMPING);
+            CGFloat restPoint = panDistance + inertialModifier;
+            NSLog(@"distance: %f, velocity: %f, modifier: %f, restpoint: %f",panDistance, hVelocity, inertialModifier, restPoint);
+            
+            if (restPoint < (0.0f - self.currentView.frame.size.width * 0.5f)) {
+                [self animateToNextView:hVelocity];
             }else {
-                [self animateToOriginalPosition];
+                [self animateToOriginalPosition:hVelocity];
             }
         }
         default:
@@ -201,14 +219,14 @@
 }
 
 
--(void)swipeGestureDetected:(id)sender {
-    [self animateToNextView];
-    [self prepareNextView];
-//    IKUHaiku *haiku = [self.haikuSource nextHaiku];
-//    if (haiku) {
-//        [self displayHaiku:haiku];
-//    }
-}
+//-(void)swipeGestureDetected:(id)sender {
+//    [self animateToNextView];
+//    [self prepareNextView];
+////    IKUHaiku *haiku = [self.haikuSource nextHaiku];
+////    if (haiku) {
+////        [self displayHaiku:haiku];
+////    }
+//}
 
 #pragma mark - helpers etc
 
@@ -228,9 +246,9 @@
 }
 
 -(UIColor*)randomishColor {
-    CGFloat hue = [self randomFloat];
-    CGFloat bright = 0.5 + ([self randomFloat] *0.5);
-    CGFloat sat = 0.5 + ([self randomFloat] *0.5);
+    CGFloat hue = randomFloat();
+    CGFloat bright = 0.5 + (randomFloat() *0.5);
+    CGFloat sat = 0.5 + (randomFloat() *0.5);
     
     UIColor *randomColor = [UIColor colorWithHue:hue
                                       saturation:sat
@@ -240,15 +258,29 @@
 }
 
 
--(CGFloat)randomFloat {
+CGFloat randomFloat() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         srand48(time(0));
     });
-
+    
     double r = drand48();
     return (CGFloat)r;
 }
+
+
+CGFloat restPointForVelocity(CGFloat position, CGFloat velocity, CGFloat damping) {
+    BOOL reverse = (velocity > 0.0f) ? NO : YES;
+    velocity = fabsf(velocity);
+    if (velocity > 1.0f) {
+        velocity = velocity - (velocity * ( 1 - damping));
+        position = reverse ? position - velocity : position + velocity;
+        return restPointForVelocity(position, velocity, damping);
+    }
+    return position;
+}
+
+
 /*
 #pragma mark - Navigation
 
@@ -261,3 +293,4 @@
 */
 
 @end
+

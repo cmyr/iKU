@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+
+CGFloat restPointForVelocity(CGFloat position, CGFloat velocity, CGFloat damping);
+CGFloat randomFloat();
+
+
 @interface IKUMainViewController : UIViewController
 
 @end

@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "IKUHaiku.h"
 #import "IKUHaikuSource.h"
+//#import "IKUHaikuViewController.h"
 
 
 @interface iKuTests : XCTestCase
@@ -37,4 +38,22 @@
     XCTAssert(h, @"failed to return first haiku");
 }
 
+CGFloat travelDistanceForVelocity(CGFloat distance, CGFloat velocity, CGFloat damping) {
+    velocity = fabsf(velocity);
+    if (velocity > 1.0f) {
+        velocity = velocity - (velocity * ( 1 - damping));
+        distance += velocity;
+        return travelDistanceForVelocity(distance, velocity, damping);
+    }
+    return distance;
+}
+
+-(void)testVelocity {
+    CGFloat travel = travelDistanceForVelocity(0.0f, 2000.0f, 0.6f);
+    NSLog(@"travel = %f", travel);
+    travel = travelDistanceForVelocity(0.0f, 1000.0f, 0.9f);
+    NSLog(@"travel = %f", travel);
+    travel = travelDistanceForVelocity(0.0f, 30.0f, 0.6f);
+    NSLog(@"travel = %f", travel);
+}
 @end
