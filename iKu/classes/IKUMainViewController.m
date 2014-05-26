@@ -55,15 +55,9 @@
     [self.haikuSource _setupDebugData];
     [self setupGestureRecognizers];
     [self setupInitialViews];
-    
-    //
-//    NSString *test = @"quite aware we're dying\
-//    let's pretend just for the night\
-//    Now, its time to change!";
-//
-//    [self setText:test];
-
-    // Do any additional setup after loading the view.
+}
+-(void)viewDidAppear:(BOOL)animated {
+    [self performSelector:@selector(animateToNextView:) withObject:nil afterDelay:0.2f];
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,11 +69,11 @@
 -(void)setupInitialViews {
     _viewOne = [[IKUHaikuView alloc]init];
     _viewTwo = [[IKUHaikuView alloc]init];
-//    self.viewOne.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.viewTwo.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.currentView = self.viewOne;
     self.nextView = self.viewTwo;
+    self.currentView.preferredBackgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = self.currentView.preferredBackgroundColor;
     
 //    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
 //    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
@@ -99,7 +93,9 @@
     self.nextView.haiku = nil;
     if (haiku) {
         self.nextView.haiku = haiku;
-        self.nextView.preferredBackgroundColor = [self randomishColor];
+        UIColor *nextColor = [self colorPickedFromColor:self.currentView.preferredBackgroundColor];
+        self.nextView.preferredBackgroundColor = nextColor;
+
     }
 }
 
@@ -193,9 +189,9 @@
                 self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
 //                [self.view updateConstraintsIfNeeded];
                 CGFloat panPercent = panDistance / self.view.frame.size.width;
-                self.view.backgroundColor = [self colorWithDistance:panPercent
-                                                       betweenColor:self.currentView.preferredBackgroundColor
-                                                           andColor:self.nextView.preferredBackgroundColor];
+                self.view.backgroundColor = colorBetweenColors(self.currentView.preferredBackgroundColor,
+                                                               self.nextView.preferredBackgroundColor,
+                                                               panPercent);
             }
             break;
         }
@@ -230,25 +226,25 @@
 
 #pragma mark - helpers etc
 
--(UIColor*)colorWithDistance:(CGFloat)percentDistance betweenColor:(UIColor*)color1 andColor:(UIColor*)color2 {
-    CGFloat h1, s1, b1, a1, h2, s2, b2, a2, hdiff, sdiff, bdiff, adiff;
-    [color1 getHue:&h1 saturation:&s1 brightness:&b1 alpha:&a1];
-    [color2 getHue:&h2 saturation:&s2 brightness:&b2 alpha:&a2];
-
-    hdiff = (h1 - h2) * percentDistance;
-    sdiff = (s1 - s2) * percentDistance;
-    bdiff = (b1 - b2) * percentDistance;
-    adiff = (a1 - a2) * percentDistance;
-
-    return [UIColor colorWithHue:h1+hdiff saturation:s1+sdiff brightness:b1+bdiff alpha:a1+adiff];
-    
-    
-}
+//-(UIColor*)colorWithDistance:(CGFloat)percentDistance betweenColor:(UIColor*)color1 andColor:(UIColor*)color2 {
+//    CGFloat h1, s1, b1, a1, h2, s2, b2, a2, hdiff, sdiff, bdiff, adiff;
+//    [color1 getHue:&h1 saturation:&s1 brightness:&b1 alpha:&a1];
+//    [color2 getHue:&h2 saturation:&s2 brightness:&b2 alpha:&a2];
+//
+//    hdiff = (h1 - h2) * percentDistance;
+//    sdiff = (s1 - s2) * percentDistance;
+//    bdiff = (b1 - b2) * percentDistance;
+//    adiff = (a1 - a2) * percentDistance;
+//
+//    return [UIColor colorWithHue:h1+hdiff saturation:s1+sdiff brightness:b1+bdiff alpha:a1+adiff];
+//    
+//    
+//}
 
 -(UIColor*)randomishColor {
-    CGFloat hue = randomFloat();
-    CGFloat bright = 0.5 + (randomFloat() *0.5);
-    CGFloat sat = 0.5 + (randomFloat() *0.5);
+    CGFloat hue = randomFloat(1.0f);
+    CGFloat bright = 0.8 + randomFloat(0.2f);
+    CGFloat sat = 0.6 + randomFloat(0.4f);
     
     UIColor *randomColor = [UIColor colorWithHue:hue
                                       saturation:sat
@@ -257,15 +253,48 @@
     return randomColor;
 }
 
+-(UIColor*)colorPickedFromColor:(UIColor*)color {
+    CGFloat hue, sat, bright, alpha;
+    [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
+    hue = wraparoundFloat(hue + randomFloat(0.04f));
+    sat = bouncingFloat(sat, 0.02f);
+    bright = 0.7f + randomFloat(0.3f);
+    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:1.0f];
+    
+}
 
-CGFloat randomFloat() {
+
+CGFloat randomFloat(CGFloat scale) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         srand48(time(0));
     });
     
     double r = drand48();
-    return (CGFloat)r;
+    return (CGFloat)r * scale;
+}
+
+
+CGFloat wraparoundFloat(CGFloat aFloat) {
+    if (aFloat > 1.0f) {
+        aFloat -= 1.0f;
+    }
+    return aFloat;
+}
+
+#define BOUNCE_FLOOR 0.2f
+
+CGFloat bouncingFloat(CGFloat aFloat, CGFloat rate) {
+    static BOOL reverse;
+    CGFloat newValue;
+    CGFloat change = randomFloat(rate);
+    
+    newValue = reverse ? aFloat - change : aFloat + change;
+    if (newValue > 1.0f || newValue < BOUNCE_FLOOR) {
+        reverse = !reverse;
+        newValue = reverse ? aFloat - change : aFloat + change;
+    }
+    return fmaxf(newValue, BOUNCE_FLOOR);
 }
 
 
@@ -278,6 +307,18 @@ CGFloat restPointForVelocity(CGFloat position, CGFloat velocity, CGFloat damping
         return restPointForVelocity(position, velocity, damping);
     }
     return position;
+}
+
+UIColor* colorBetweenColors(UIColor *color1, UIColor *color2, CGFloat percentDistance) {
+    CGFloat r1, r2, g1, g2, b1, b2, a1, a2, rdiff, gdiff, bdiff, adiff;
+    [color1 getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
+    [color2 getRed:&r2 green:&g2 blue:&b2 alpha:&a2];
+    
+    rdiff = (r1 - r2) * percentDistance;
+    gdiff = (g1 - g2) * percentDistance;
+    bdiff = (b1 - b2) * percentDistance;
+    adiff = (a1 - a2) * percentDistance;
+    return [UIColor colorWithRed:r1+rdiff green:g1+gdiff blue:b1+bdiff alpha:a1+adiff];
 }
 
 
