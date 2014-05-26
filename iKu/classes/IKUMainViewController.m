@@ -56,11 +56,11 @@
     [self setupInitialViews];
     
     //
-    NSString *test = @"quite aware we're dying\
-    let's pretend just for the night\
-    Now, its time to change!";
-
-    [self setText:test];
+//    NSString *test = @"quite aware we're dying\
+//    let's pretend just for the night\
+//    Now, its time to change!";
+//
+//    [self setText:test];
 
     // Do any additional setup after loading the view.
 }
@@ -74,16 +74,19 @@
 -(void)setupInitialViews {
     _viewOne = [[IKUHaikuView alloc]init];
     _viewTwo = [[IKUHaikuView alloc]init];
-    self.viewOne.translatesAutoresizingMaskIntoConstraints = NO;
-    self.viewTwo.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.viewOne.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.viewTwo.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.currentView = self.viewOne;
     self.nextView = self.viewTwo;
     
+    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
+    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];
     
-    [self setConstraintsForHaikuViews];
+//    [self setConstraintsForHaikuViews];
+    [self layoutHaikuViews];
     [self prepareNextView];
     
 }
@@ -95,6 +98,7 @@
     self.nextView.haiku = nil;
     if (haiku) {
         self.nextView.haiku = haiku;
+        self.nextView.preferredBackgroundColor = [self randomishColor];
     }
 }
 
@@ -104,8 +108,12 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         self.leftAlignConstraint.constant = -self.currentView.frame.size.width;
-                         [self.view layoutIfNeeded];
+                         self.view.backgroundColor = self.nextView.preferredBackgroundColor;
+//                         self.leftAlignConstraint.constant = -self.currentView.frame.size.width;
+//                         [self.view layoutIfNeeded];
+                         self.currentView.center = CGPointMake(self.view.center.x - self.view.frame.size.width,
+                                                               self.view.center.y);
+                         self.nextView.center = self.view.center;
                          
                      }
                      completion:^(BOOL finished) {
@@ -113,7 +121,8 @@
                          self.currentView = self.nextView;
                          self.nextView = nextView;
                          [self prepareNextView];
-                         [self setConstraintsForHaikuViews];
+                         [self layoutHaikuViews];
+//                         [self setConstraintsForHaikuViews];
                      }];
 }
 
@@ -121,113 +130,39 @@
 //    self.leftAlignConstraint.constant = 0.0f;
 //    self.animator = [[UIDynamicAnimator alloc]initWithReferenceView:self.view];
 //    UISnapBehavior *snap = [[UISnapBehavior alloc]initWithItem:self.currentView snapToPoint:self.view.center];
-//    snap.damping = 0.5f;
+//    UISnapBehavior *snap2 = [[UISnapBehavior alloc]initWithItem:self.nextView snapToPoint:CGPointMake(self.view.center.x + self.view.frame.size.width, self.view.center.y)];
+//
+////    snap.damping = 0.5f;
 //    [self.animator addBehavior:snap];
+//    [self.animator addBehavior:snap2];
     
     [self.view layoutIfNeeded];
     [UIView animateWithDuration:0.5f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         self.leftAlignConstraint.constant = 0.0f;
-                         [self.view layoutIfNeeded];
+                         self.view.backgroundColor = self.currentView.preferredBackgroundColor;
+                         self.currentView.center = self.view.center;
+//                         self.leftAlignConstraint.constant = 0.0f;
+//                         [self.view layoutIfNeeded];
                      }
                      completion:NULL
      ];
 }
 
 //-(void)setConstraintsForDisplayedView:(IKUHaikuView*)mainView nextView:(IKUHaikuView*)nextView {
--(void)setConstraintsForHaikuViews {
-
-    if (self.activeConstraints) {
-        [self.view removeConstraints:self.activeConstraints];
-    }
-    
-
-    NSLayoutConstraint *leftAlignConstraint = [NSLayoutConstraint constraintWithItem:self.currentView
-                                                                           attribute:NSLayoutAttributeLeft
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.view
-                                                                           attribute:NSLayoutAttributeLeft
-                                                                          multiplier:1.0f
-                                                                            constant:0.0f];
-    
-    self.activeConstraints = @[leftAlignConstraint,
-                                [NSLayoutConstraint constraintWithItem:self.currentView
-                                                          attribute:NSLayoutAttributeCenterY
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                            attribute:NSLayoutAttributeCenterY
-                                                         multiplier:1.0f
-                                                           constant:0.0f],
-                               [NSLayoutConstraint constraintWithItem:self.currentView
-                                                            attribute:NSLayoutAttributeWidth
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self.view
-                                                            attribute:NSLayoutAttributeWidth
-                                                           multiplier:1.0f
-                                                             constant:0.0f],
-                               [NSLayoutConstraint constraintWithItem:self.currentView
-                                                            attribute:NSLayoutAttributeHeight
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self.view
-                                                            attribute:NSLayoutAttributeHeight
-                                                           multiplier:1.0f
-                                                           constant:0.0f],
-                               [NSLayoutConstraint constraintWithItem:self.nextView
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.currentView
-                                                          attribute:NSLayoutAttributeHeight
-                                                         multiplier:1.0f
-                                                           constant:0.0f],
-                               [NSLayoutConstraint constraintWithItem:self.nextView
-                                                            attribute:NSLayoutAttributeWidth
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self.currentView
-                                                            attribute:NSLayoutAttributeWidth
-                                                           multiplier:1.0f
-                                                             constant:0.0f],
-                               [NSLayoutConstraint constraintWithItem:self.nextView
-                                                            attribute:NSLayoutAttributeLeft
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self.currentView
-                                                            attribute:NSLayoutAttributeRight
-                                                           multiplier:1.0f
-                                                             constant:0.0f],
-                               [NSLayoutConstraint constraintWithItem:self.nextView
-                                                            attribute:NSLayoutAttributeTop
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self.currentView
-                                                            attribute:NSLayoutAttributeTop
-                                                           multiplier:1.0f constant:0.0f]
-                            
-                             ];
-    [self.view addConstraints:self.activeConstraints];
-    self.leftAlignConstraint = leftAlignConstraint;
-    [self.view layoutIfNeeded];
+-(void)layoutHaikuViews {
+    self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
 }
 
 
--(void)setText:(NSString*)text {
-    self.currentView.textLabel.text = text;
-    self.currentView.textLabel.adjustsFontSizeToFitWidth = YES;
-    self.currentView.textLabel.minimumScaleFactor = 0.4f;
-    
-    [self.currentView.textLabel sizeToFit];
-//    [self.currentView updateConstraints];
-    
-}
 
 
 #pragma mark - gesture handling
 
 
 -(void)setupGestureRecognizers {
-//    self.swipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeGestureDetected:)];
-//    self.swipe.direction = UISwipeGestureRecognizerDirectionLeft;
-//    [self.view addGestureRecognizer:self.swipe];
-    
     self.pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGesture:)];
     [self.view addGestureRecognizer:self.pan];
 }
@@ -241,15 +176,20 @@
             CGPoint touchLocation = [self.pan locationInView:self.view];
             CGFloat panDistance = touchLocation.x  - self.initialPanPoint.x;
             if (panDistance < 0) {
-                self.leftAlignConstraint.constant = panDistance;
-                [self.view updateConstraintsIfNeeded];
+                self.currentView.center = CGPointMake(self.view.center.x + panDistance, self.view.center.y);
+                self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
+//                [self.view updateConstraintsIfNeeded];
+                CGFloat panPercent = panDistance / self.view.frame.size.width;
+                self.view.backgroundColor = [self colorWithDistance:panPercent
+                                                       betweenColor:self.currentView.preferredBackgroundColor
+                                                           andColor:self.nextView.preferredBackgroundColor];
             }
             break;
         }
         case UIGestureRecognizerStateEnded: {
             CGPoint touchLocation = [self.pan locationInView:self.view];
             CGFloat panDistance = self.initialPanPoint.x - touchLocation.x;
-            if (panDistance > self.currentView.frame.size.width * 0.45f) {
+            if (panDistance > self.currentView.frame.size.width * 0.33f) {
                 [self animateToNextView];
             }else {
                 [self animateToOriginalPosition];
@@ -271,6 +211,7 @@
 }
 
 #pragma mark - helpers etc
+
 -(UIColor*)colorWithDistance:(CGFloat)percentDistance betweenColor:(UIColor*)color1 andColor:(UIColor*)color2 {
     CGFloat h1, s1, b1, a1, h2, s2, b2, a2, hdiff, sdiff, bdiff, adiff;
     [color1 getHue:&h1 saturation:&s1 brightness:&b1 alpha:&a1];
@@ -286,6 +227,28 @@
     
 }
 
+-(UIColor*)randomishColor {
+    CGFloat hue = [self randomFloat];
+    CGFloat bright = 0.5 + ([self randomFloat] *0.5);
+    CGFloat sat = 0.5 + ([self randomFloat] *0.5);
+    
+    UIColor *randomColor = [UIColor colorWithHue:hue
+                                      saturation:sat
+                                      brightness:bright
+                                           alpha:1.0];
+    return randomColor;
+}
+
+
+-(CGFloat)randomFloat {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        srand48(time(0));
+    });
+
+    double r = drand48();
+    return (CGFloat)r;
+}
 /*
 #pragma mark - Navigation
 

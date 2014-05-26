@@ -14,4 +14,5 @@
 @interface IKUHaikuView : UIView
 @property (strong, nonatomic) IKUHaiku* haiku;
 @property (strong, nonatomic) UILabel* textLabel;
+@property (strong, nonatomic) UIColor* preferredBackgroundColor;
 @end

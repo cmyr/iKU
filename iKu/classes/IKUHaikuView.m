@@ -68,6 +68,14 @@
         [self.textLabel sizeToFit];
     }
 }
+
+-(UIColor*)preferredBackgroundColor {
+    if (!_preferredBackgroundColor) {
+        _preferredBackgroundColor = [UIColor whiteColor];
+    }
+    return _preferredBackgroundColor;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
