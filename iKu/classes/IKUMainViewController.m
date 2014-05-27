@@ -75,8 +75,8 @@
     self.nextView = self.viewTwo;
     self.currentView.preferredBackgroundColor = [UIColor whiteColor];
     
-    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
-    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
+//    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
+//    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
     
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];
@@ -92,20 +92,22 @@
     [b1 setTitle:@"b1" forState:UIControlStateNormal];
     b1.animateTap = NO;
     [b1 addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    b1.tag = 69;
     
     DKCircleButton *b2 = [[DKCircleButton alloc]init];
     [b2 setTitle:@"b2" forState:UIControlStateNormal];
     b2.animateTap = NO;
+    [b2 addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     DKCircleButton *b3 = [[DKCircleButton alloc]init];
     [b3 setTitle:@"b3" forState:UIControlStateNormal];
     b3.animateTap = NO;
     
     
-    self.topMenu = [[IKUMenuView alloc]initWithItems:@[b1, b2, b3] menuPosition:IKUMenuPositionBottom];
+    self.topMenu = [[IKUMenuView alloc]initWithItems:@[b1, b2] menuPosition:IKUMenuPositionTop];
     self.topMenu.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.topMenu];
-    self.topMenu.backgroundColor = [UIColor colorWithRed:0.000 green:0.358 blue:0.000 alpha:1.000];
+//    self.topMenu.backgroundColor = [UIColor colorWithRed:0.000 green:0.358 blue:0.000 alpha:1.000];
     
     
 }
@@ -256,12 +258,19 @@
 
 #pragma mark - debug
 
--(void)buttonTapped:(id)sender {
-    DKCircleButton *b4 = [[DKCircleButton alloc]init];
-    [b4 setTitle:@"b4" forState:UIControlStateNormal];
-    b4.animateTap = NO;
-    
-    self.topMenu.items = [self.topMenu.items arrayByAddingObject:b4];
+-(void)buttonTapped:(UIButton*)sender {
+    if (sender.tag == 69) {
+        DKCircleButton *b4 = [[DKCircleButton alloc]init];
+        [b4 setTitle:@"b4" forState:UIControlStateNormal];
+        b4.animateTap = NO;
+        self.topMenu.items = [self.topMenu.items arrayByAddingObject:b4];
+    }else {
+        NSUInteger count = self.topMenu.items.count;
+        if (count > 1) {
+            self.topMenu.items = [self.topMenu.items subarrayWithRange:NSMakeRange(0, count-1)];
+        }
+
+    }
 }
 #pragma mark - helpers etc
 
