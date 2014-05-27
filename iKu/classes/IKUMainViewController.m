@@ -86,6 +86,19 @@
     
 }
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+        [UIView animateWithDuration:duration
+                              delay:0.0f
+                            options:UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             [self layoutHaikuViews];
+                         } completion:NULL];
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self layoutHaikuViews];
+}
+
 #pragma mark - animation and view updating
 
 -(void)prepareNextView {
@@ -101,7 +114,7 @@
 
 -(void)animateToNextView:(CGFloat)velocity {
     [self.view layoutIfNeeded];
-    CGFloat distanceToTravel = self.nextView.center.x - self.view.center.x;
+    CGFloat distanceToTravel = self.nextView.center.x - self.view.bounds.size.width / 2;
     NSTimeInterval animationDuration = distanceToTravel / fabsf(velocity);
 //    set max time interval
     animationDuration = fminf(animationDuration, 0.3f);
@@ -112,11 +125,8 @@
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          self.view.backgroundColor = self.nextView.preferredBackgroundColor;
-//                         self.leftAlignConstraint.constant = -self.currentView.frame.size.width;
-//                         [self.view layoutIfNeeded];
-                         self.currentView.center = CGPointMake(self.view.center.x - self.view.frame.size.width,
-                                                               self.view.center.y);
-                         self.nextView.center = self.view.center;
+                         self.currentView.frame = CGRectOffset(self.view.bounds, -self.view.bounds.size.width, 0);
+                         self.nextView.frame = self.view.bounds;
                          
                      }
                      completion:^(BOOL finished) {
@@ -138,7 +148,7 @@
     if (velocity < DEFAULT_ANIMATION_VELOCITY) {
         velocity = DEFAULT_ANIMATION_VELOCITY;
     }
-    CGFloat distanceToTravel = self.view.center.x - self.currentView.center.x;
+    CGFloat distanceToTravel = (self.view.bounds.size.width / 2) - self.currentView.center.x;
     animationDuration = distanceToTravel / velocity;
 
 //    set a max animation duration
@@ -149,8 +159,8 @@
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          self.view.backgroundColor = self.currentView.preferredBackgroundColor;
-                         self.currentView.center = self.view.center;
-                         self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
+                         self.currentView.frame = self.view.bounds;
+                         self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.bounds.size.width, 0);
 //                         self.leftAlignConstraint.constant = 0.0f;
 //                         [self.view layoutIfNeeded];
                      }
@@ -160,7 +170,15 @@
 
 //-(void)setConstraintsForDisplayedView:(IKUHaikuView*)mainView nextView:(IKUHaikuView*)nextView {
 -(void)layoutHaikuViews {
-    self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    switch ([[UIDevice currentDevice]orientation]) {
+        case UIDeviceOrientationPortrait :
+            self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+            break;
+            
+        default:
+            self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
+            break;
+    }
     self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
 }
 
@@ -185,10 +203,12 @@
             CGPoint touchLocation = [self.pan locationInView:self.view];
             CGFloat panDistance = touchLocation.x  - self.initialPanPoint.x;
             if (panDistance < 0) {
-                self.currentView.center = CGPointMake(self.view.center.x + panDistance, self.view.center.y);
-                self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
+//                we use bounds.size.{} / 2 because center doesn't change when rotated
+                self.currentView.center = CGPointMake((self.view.bounds.size.width / 2) + panDistance,
+                                                      (self.view.bounds.size.height / 2));
+                self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.bounds.size.width, 0);
 //                [self.view updateConstraintsIfNeeded];
-                CGFloat panPercent = panDistance / self.view.frame.size.width;
+                CGFloat panPercent = panDistance / self.view.bounds.size.width;
                 self.view.backgroundColor = colorBetweenColors(self.currentView.preferredBackgroundColor,
                                                                self.nextView.preferredBackgroundColor,
                                                                panPercent);
@@ -201,9 +221,9 @@
             CGFloat hVelocity = [gesture velocityInView:self.view].x;
             CGFloat inertialModifier =  restPointForVelocity(0.0f, hVelocity, DEFAULT_PAN_DAMPING);
             CGFloat restPoint = panDistance + inertialModifier;
-            NSLog(@"distance: %f, velocity: %f, modifier: %f, restpoint: %f",panDistance, hVelocity, inertialModifier, restPoint);
+            NSLog(@"distance: %f, velocity: %f, modifier: %f, restpoint: %f", panDistance, hVelocity, inertialModifier, restPoint);
             
-            if (restPoint < (0.0f - self.currentView.frame.size.width * 0.5f)) {
+            if (restPoint < (0.0f - self.currentView.bounds.size.width * 0.5f)) {
                 [self animateToNextView:hVelocity];
             }else {
                 [self animateToOriginalPosition:hVelocity];
