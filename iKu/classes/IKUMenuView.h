@@ -8,9 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+
+typedef NS_ENUM(NSUInteger, IKUMenuPosition) {
+    IKUMenuPositionTop = 1,
+    IKUMenuPositionBottom = 2
+};
+
 @interface IKUMenuView : UIView
 @property (strong, nonatomic) NSArray* items;
--(instancetype)initWithItems:(NSArray*)items;
+@property (nonatomic, readonly) IKUMenuPosition menuPosition;
+
+-(instancetype)initWithItems:(NSArray*)items menuPosition:(IKUMenuPosition)menuPosition;
 
 
 @end

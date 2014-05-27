@@ -75,8 +75,9 @@
     self.nextView = self.viewTwo;
     self.currentView.preferredBackgroundColor = [UIColor whiteColor];
     
-//    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
-//    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
+    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
+    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
+    
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];
     [self setupTopMenu];
@@ -101,7 +102,7 @@
     b3.animateTap = NO;
     
     
-    self.topMenu = [[IKUMenuView alloc]initWithItems:@[b1, b2, b3]];
+    self.topMenu = [[IKUMenuView alloc]initWithItems:@[b1, b2, b3] menuPosition:IKUMenuPositionBottom];
     self.topMenu.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.topMenu];
     self.topMenu.backgroundColor = [UIColor colorWithRed:0.000 green:0.358 blue:0.000 alpha:1.000];
@@ -190,15 +191,13 @@
 
 //-(void)setConstraintsForDisplayedView:(IKUHaikuView*)mainView nextView:(IKUHaikuView*)nextView {
 -(void)layoutHaikuViews {
-    switch ([[UIDevice currentDevice]orientation]) {
-        case UIDeviceOrientationPortrait :
-            self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-            break;
-            
-        default:
-            self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
-            break;
+
+    if (UIDeviceOrientationIsLandscape(self.interfaceOrientation)) {
+        self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
+    }else {
+        self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }
+    
     self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
 }
 

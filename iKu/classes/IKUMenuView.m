@@ -13,17 +13,18 @@
 
 @interface IKUMenuView ()
 @property (nonatomic) BOOL shouldUpdateConstraints;
-
+@property (nonatomic, assign) IKUMenuPosition menuPosition;
 @end
 
 @implementation IKUMenuView
 
-- (instancetype)initWithItems:(NSArray*)items
+- (instancetype)initWithItems:(NSArray*)items menuPosition:(IKUMenuPosition)menuPosition
 {
     self = [super init];
     if (self) {
         self.items = items;
         self.shouldUpdateConstraints = YES;
+        self.menuPosition = menuPosition;
     }
     return self;
 }
@@ -75,7 +76,9 @@
     
     [self autoSetDimension:ALDimensionWidth toSize:self.superview.bounds.size.width];
     [self autoSetDimension:ALDimensionHeight toSize:viewHeight];
-    [self autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0f];
+    
+    ALEdge pinEdge = (self.menuPosition == IKUMenuPositionTop) ? ALEdgeTop : ALEdgeBottom;
+    [self autoPinEdgeToSuperviewEdge:pinEdge withInset:0.0f];
 
 
 //manually set widths and heights here so that we can assign priorities
@@ -127,7 +130,12 @@
         //        pin height based on calculated offset;
         CGFloat offsetModifier = [offsetModifiers[idx]floatValue];
         CGFloat offset = MIN_BUTTON_PADDING + buttonSize - (buttonSize * offsetModifier);
-        [view autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self withOffset:offset];
+        if (self.menuPosition == IKUMenuPositionTop) {
+            [view autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self withOffset:offset];
+        }else{
+            [view autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:self withOffset:-offset];
+        }
+
         firstView = view;
         
     }];
