@@ -18,13 +18,8 @@
 @property (strong, nonatomic, readonly) IKUHaikuView* viewTwo;
 @property (weak, nonatomic) IKUHaikuView *currentView;
 @property (weak, nonatomic) IKUHaikuView *nextView;
-@property (strong, nonatomic) UISwipeGestureRecognizer* swipe;
+
 @property (strong, nonatomic) UIPanGestureRecognizer* pan;
-
-@property (strong, nonatomic) UIDynamicAnimator* animator;
-@property (strong, nonatomic) NSArray* activeConstraints;
-@property (weak, nonatomic) NSLayoutConstraint *leftAlignConstraint;
-
 @property (nonatomic) CGPoint initialPanPoint;
 
 @end
@@ -73,14 +68,12 @@
     self.currentView = self.viewOne;
     self.nextView = self.viewTwo;
     self.currentView.preferredBackgroundColor = [UIColor whiteColor];
-//    self.view.backgroundColor = self.currentView.preferredBackgroundColor;
     
 //    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
 //    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];
     
-//    [self setConstraintsForHaikuViews];
     [self layoutHaikuViews];
     [self prepareNextView];
     
@@ -93,10 +86,6 @@
                          animations:^{
                              [self layoutHaikuViews];
                          } completion:NULL];
-}
-
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [self layoutHaikuViews];
 }
 
 #pragma mark - animation and view updating
@@ -235,31 +224,8 @@
 }
 
 
-//-(void)swipeGestureDetected:(id)sender {
-//    [self animateToNextView];
-//    [self prepareNextView];
-////    IKUHaiku *haiku = [self.haikuSource nextHaiku];
-////    if (haiku) {
-////        [self displayHaiku:haiku];
-////    }
-//}
-
 #pragma mark - helpers etc
 
-//-(UIColor*)colorWithDistance:(CGFloat)percentDistance betweenColor:(UIColor*)color1 andColor:(UIColor*)color2 {
-//    CGFloat h1, s1, b1, a1, h2, s2, b2, a2, hdiff, sdiff, bdiff, adiff;
-//    [color1 getHue:&h1 saturation:&s1 brightness:&b1 alpha:&a1];
-//    [color2 getHue:&h2 saturation:&s2 brightness:&b2 alpha:&a2];
-//
-//    hdiff = (h1 - h2) * percentDistance;
-//    sdiff = (s1 - s2) * percentDistance;
-//    bdiff = (b1 - b2) * percentDistance;
-//    adiff = (a1 - a2) * percentDistance;
-//
-//    return [UIColor colorWithHue:h1+hdiff saturation:s1+sdiff brightness:b1+bdiff alpha:a1+adiff];
-//    
-//    
-//}
 
 -(UIColor*)randomishColor {
     CGFloat hue = randomFloat(1.0f);
