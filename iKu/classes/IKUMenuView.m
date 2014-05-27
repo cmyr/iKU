@@ -12,6 +12,7 @@
 #import <UIView+AutoLayout.h>
 
 @interface IKUMenuView ()
+@property (nonatomic) BOOL shouldUpdateConstraints;
 
 @end
 
@@ -22,6 +23,7 @@
     self = [super init];
     if (self) {
         self.items = items;
+        self.shouldUpdateConstraints = YES;
     }
     return self;
 }
@@ -40,16 +42,22 @@
             view.translatesAutoresizingMaskIntoConstraints = NO;
             [self addSubview:view];
         }];
-
-    }
+        self.shouldUpdateConstraints = YES;
+        }
 }
 
 #define MAX_BUTTON_SIZE 64.0f
-#define MIN_BUTTON_SIZE 36.0f
-#define MIN_BUTTON_PADDING 10.0f
+#define MIN_BUTTON_SIZE 24.0f
+#define MIN_BUTTON_PADDING 4.0f
 
 -(void)updateConstraints {
+    [self removeConstraints:self.constraints];
     [super updateConstraints];
+
+    if (!self.shouldUpdateConstraints) {
+        return;
+    }
+                         
 //    so first thing: how big do we make our buttons?
     if (CGRectIsEmpty(self.frame)) {
         self.frame = CGRectMake(0, 0, self.superview.bounds.size.width, self.superview.bounds.size.height);
@@ -123,7 +131,7 @@
         firstView = view;
         
     }];
-
+    self.shouldUpdateConstraints = NO;
 }
 
 //- (id)initWithFrame:(CGRect)frame

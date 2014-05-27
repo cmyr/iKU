@@ -10,7 +10,6 @@
 
 @interface IKUMenuView : UIView
 @property (strong, nonatomic) NSArray* items;
-
 -(instancetype)initWithItems:(NSArray*)items;
 
 
