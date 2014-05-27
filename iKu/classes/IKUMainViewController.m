@@ -10,6 +10,10 @@
 #import "IKUHaikuSource.h"
 #import "IKUHaiku.h"
 #import "IKUHaikuView.h"
+#import "IKUMenuView.h"
+#import "DKCircleButton.h"
+
+#import <UIView+AutoLayout.h>
 
 @interface IKUMainViewController ()
 
@@ -19,6 +23,7 @@
 @property (weak, nonatomic) IKUHaikuView *currentView;
 @property (weak, nonatomic) IKUHaikuView *nextView;
 
+@property (strong, nonatomic) IKUMenuView *topMenu;
 @property (strong, nonatomic) UIPanGestureRecognizer* pan;
 @property (nonatomic) CGPoint initialPanPoint;
 
@@ -73,9 +78,33 @@
 //    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];
+    [self setupTopMenu];
     
     [self layoutHaikuViews];
     [self prepareNextView];
+    
+}
+
+-(void)setupTopMenu {
+    DKCircleButton *b1 = [[DKCircleButton alloc]init];
+    [b1 setTitle:@"b1" forState:UIControlStateNormal];
+    b1.animateTap = NO;
+    [b1 addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    DKCircleButton *b2 = [[DKCircleButton alloc]init];
+    [b2 setTitle:@"b2" forState:UIControlStateNormal];
+    b2.animateTap = NO;
+    
+    DKCircleButton *b3 = [[DKCircleButton alloc]init];
+    [b3 setTitle:@"b3" forState:UIControlStateNormal];
+    b3.animateTap = NO;
+    
+    
+    self.topMenu = [[IKUMenuView alloc]initWithItems:@[b1, b2, b3]];
+    self.topMenu.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.topMenu];
+    self.topMenu.backgroundColor = [UIColor colorWithRed:0.000 green:0.358 blue:0.000 alpha:1.000];
+    
     
 }
 
@@ -225,6 +254,15 @@
 }
 
 
+#pragma mark - debug
+
+-(void)buttonTapped:(id)sender {
+    DKCircleButton *b4 = [[DKCircleButton alloc]init];
+    [b4 setTitle:@"b4" forState:UIControlStateNormal];
+    b4.animateTap = NO;
+    
+    self.topMenu.items = [self.topMenu.items arrayByAddingObject:b4];
+}
 #pragma mark - helpers etc
 
 
@@ -244,7 +282,7 @@
     CGFloat hue, sat, bright, alpha;
     [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
     hue = wraparoundFloat(hue + randomFloat(0.04f));
-    sat = bouncingFloat(sat, 0.02f);
+    sat = bouncingFloat(sat, 0.02f, YES);
     bright = 0.7f + randomFloat(0.3f);
     return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:1.0f];
     
@@ -271,7 +309,7 @@ CGFloat wraparoundFloat(CGFloat aFloat) {
 
 #define BOUNCE_FLOOR 0.3f
 
-CGFloat bouncingFloat(CGFloat aFloat, CGFloat rate) {
+CGFloat bouncingFloat(CGFloat aFloat, CGFloat rate, BOOL isRandom) {
     static BOOL reverse;
     CGFloat newValue;
     CGFloat change = randomFloat(rate);
