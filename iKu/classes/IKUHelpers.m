@@ -39,7 +39,10 @@ CGFloat bouncingFloat(CGFloat aFloat, CGFloat floor, CGFloat rate, BOOL isRandom
         reverse = !reverse;
         newValue = reverse ? aFloat - change : aFloat + change;
     }
-    return fmaxf(newValue, floor);
+    if (floor) {
+        newValue = fmaxf(newValue, floor);
+    }
+    return newValue;
 }
 
 @end

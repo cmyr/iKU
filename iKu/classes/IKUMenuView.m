@@ -7,6 +7,8 @@
 //
 
 #import "IKUMenuView.h"
+#import "IKUHelpers.h"
+
 #import <UIView+AutoLayout.h>
 
 @interface IKUMenuView ()
@@ -56,10 +58,11 @@
     
     buttonSize = (self.frame.size.width - (MIN_BUTTON_PADDING * (self.items.count + 1))) / self.items.count;
     
+//    sane values plz
     buttonSize = fmin(MAX_BUTTON_SIZE, buttonSize);
     buttonSize = fmax(MIN_BUTTON_SIZE, buttonSize);
     
-    viewHeight = buttonSize + (2 * MIN_BUTTON_PADDING);
+    viewHeight = buttonSize * 2 + (2 * MIN_BUTTON_PADDING);
     hPadding = (self.frame.size.width - (self.items.count * buttonSize)) / (self.items.count + 1);
     
     [self autoSetDimension:ALDimensionWidth toSize:self.superview.bounds.size.width];
@@ -101,20 +104,24 @@
     
     __block UIView *firstView = [self.items firstObject];
     [firstView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:hPadding];
-    [firstView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+//    [firstView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     
-    NSArray *offsets = [self offsetsForItemsWithCount:self.items.count];
+    NSArray *offsetModifiers = [self offsetsForItemsWithCount:self.items.count];
     
     [self.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UIView *view = (UIView*)obj;
-        if ([view isEqual:firstView]) {
-//            pass
-        }else {
-            [view autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:firstView withOffset:hPadding];
-            [view autoAlignAxis:ALAxisHorizontal toSameAxisOfView:firstView];
-            firstView = view;
-            
+        
+//        first view doesn't need horizonal pinning
+        if (![view isEqual:firstView]) {
+          [view autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:firstView withOffset:hPadding];
         }
+
+        //        pin height based on calculated offset;
+        CGFloat offsetModifier = [offsetModifiers[idx]floatValue];
+        CGFloat offset = MIN_BUTTON_PADDING + buttonSize - (buttonSize * offsetModifier);
+        [view autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self withOffset:offset];
+        firstView = view;
+        
     }];
 
 }
@@ -138,9 +145,26 @@
 */
 
 #pragma mark - helpers
-
+/**
+ returns an array of @(floats) used to determine y-pos of menu items
+ */
 -(NSArray*)offsetsForItemsWithCount:(NSUInteger)count {
     NSMutableArray *array = [NSMutableArray array];
+    
+    BOOL oddNumber = (BOOL)(count % 2);
+    CGFloat offsetCount = (count / 2) + (count % 2);
+    CGFloat rateOfChange = 1.0f / offsetCount;
+    CGFloat value = 0.0f;
+    for (int i = 0; i < count; i++) {
+        value = bouncingFloat(value, 0.0f, rateOfChange, NO);
+        [array addObject:@(value)];
+        if (value >= 1.0f && !oddNumber) {
+            [array addObject:@(value)];
+            ++i;
+        }
+    }
+    
+    return [array copy];
     
 }
 
