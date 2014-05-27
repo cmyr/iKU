@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		62C51AF6BFB04D0AA6A5C6D3 /* libPods-iKu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B158F8F8B27B467AB5F0CA53 /* libPods-iKu.a */; };
 		6B2EF105192FA9B30069B81A /* IKUHaikuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2EF104192FA9B30069B81A /* IKUHaikuView.m */; };
+		6B7C61E9193534DB00305677 /* IKUHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C61E8193534DB00305677 /* IKUHelpers.m */; };
+		6B7C61EB19353A8200305677 /* IKUHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C61E8193534DB00305677 /* IKUHelpers.m */; };
 		6B8CB139192D29A900A119D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CB138192D29A900A119D5 /* Foundation.framework */; };
 		6B8CB13B192D29A900A119D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CB13A192D29A900A119D5 /* CoreGraphics.framework */; };
 		6B8CB13D192D29A900A119D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CB13C192D29A900A119D5 /* UIKit.framework */; };
@@ -37,6 +39,8 @@
 		50FAFBBC59FE44C5ADF15685 /* Pods-iKu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iKu.xcconfig"; path = "Pods/Pods-iKu.xcconfig"; sourceTree = "<group>"; };
 		6B2EF103192FA9B30069B81A /* IKUHaikuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUHaikuView.h; path = classes/IKUHaikuView.h; sourceTree = "<group>"; };
 		6B2EF104192FA9B30069B81A /* IKUHaikuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUHaikuView.m; path = classes/IKUHaikuView.m; sourceTree = "<group>"; };
+		6B7C61E7193534DB00305677 /* IKUHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUHelpers.h; path = classes/IKUHelpers.h; sourceTree = "<group>"; };
+		6B7C61E8193534DB00305677 /* IKUHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUHelpers.m; path = classes/IKUHelpers.m; sourceTree = "<group>"; };
 		6B8CB135192D29A900A119D5 /* iKu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iKu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B8CB138192D29A900A119D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6B8CB13A192D29A900A119D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -172,6 +176,8 @@
 			children = (
 				6B8CB179192D3B4500A119D5 /* IKUMainViewController.h */,
 				6B8CB17A192D3B4500A119D5 /* IKUMainViewController.m */,
+				6B7C61E7193534DB00305677 /* IKUHelpers.h */,
+				6B7C61E8193534DB00305677 /* IKUHelpers.m */,
 				6BA1AF9319350C010016E7CD /* IKUMenuView.h */,
 				6BA1AF9419350C010016E7CD /* IKUMenuView.m */,
 				6BA1AF9019350BE60016E7CD /* DKCircleButton.h */,
@@ -323,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B7C61E9193534DB00305677 /* IKUHelpers.m in Sources */,
 				6B2EF105192FA9B30069B81A /* IKUHaikuView.m in Sources */,
 				6BA1AF9519350C010016E7CD /* IKUMenuView.m in Sources */,
 				6B8CB175192D2FC700A119D5 /* IKUHaiku.m in Sources */,
@@ -338,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B7C61EB19353A8200305677 /* IKUHelpers.m in Sources */,
 				6B8CB15E192D29A900A119D5 /* iKuTests.m in Sources */,
 				6B8CB178192D37A500A119D5 /* IKUHaiku.m in Sources */,
 				6B8CB177192D37A500A119D5 /* IKUHaikuSource.m in Sources */,

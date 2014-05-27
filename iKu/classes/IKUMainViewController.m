@@ -12,6 +12,7 @@
 #import "IKUHaikuView.h"
 #import "IKUMenuView.h"
 #import "DKCircleButton.h"
+#import "IKUHelpers.h"
 
 #import <UIView+AutoLayout.h>
 
@@ -277,49 +278,15 @@
                                            alpha:1.0];
     return randomColor;
 }
-
+#define BOUNCE_FLOOR 0.3f
 -(UIColor*)colorPickedFromColor:(UIColor*)color {
     CGFloat hue, sat, bright, alpha;
     [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
     hue = wraparoundFloat(hue + randomFloat(0.04f));
-    sat = bouncingFloat(sat, 0.02f, YES);
+    sat = bouncingFloat(sat, BOUNCE_FLOOR, 0.02f, YES);
     bright = 0.7f + randomFloat(0.3f);
     return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:1.0f];
     
-}
-
-
-CGFloat randomFloat(CGFloat scale) {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        srand48(time(0));
-    });
-    
-    double r = drand48();
-    return (CGFloat)r * scale;
-}
-
-
-CGFloat wraparoundFloat(CGFloat aFloat) {
-    if (aFloat > 1.0f) {
-        aFloat -= 1.0f;
-    }
-    return aFloat;
-}
-
-#define BOUNCE_FLOOR 0.3f
-
-CGFloat bouncingFloat(CGFloat aFloat, CGFloat rate, BOOL isRandom) {
-    static BOOL reverse;
-    CGFloat newValue;
-    CGFloat change = randomFloat(rate);
-    
-    newValue = reverse ? aFloat - change : aFloat + change;
-    if (newValue > 1.0f || newValue < BOUNCE_FLOOR) {
-        reverse = !reverse;
-        newValue = reverse ? aFloat - change : aFloat + change;
-    }
-    return fmaxf(newValue, BOUNCE_FLOOR);
 }
 
 
