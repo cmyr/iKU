@@ -13,6 +13,7 @@ CGFloat restPointForVelocity(CGFloat position, CGFloat velocity, CGFloat damping
 CGFloat randomFloat(CGFloat scale);
 UIColor* colorBetweenColors(UIColor *color1, UIColor *color2, CGFloat percentDistance);
 CGFloat wraparoundFloat(CGFloat aFloat);
+void    debugPrintColor(UIColor* color);
 
 @interface IKUMainViewController : UIViewController
 

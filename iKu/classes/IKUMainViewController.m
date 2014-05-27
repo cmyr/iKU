@@ -114,6 +114,7 @@
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          self.view.backgroundColor = self.nextView.preferredBackgroundColor;
+                         debugPrintColor(self.view.backgroundColor);
                          self.currentView.frame = CGRectOffset(self.view.bounds, -self.view.bounds.size.width, 0);
                          self.nextView.frame = self.view.bounds;
                          
@@ -210,7 +211,7 @@
             CGFloat hVelocity = [gesture velocityInView:self.view].x;
             CGFloat inertialModifier =  restPointForVelocity(0.0f, hVelocity, DEFAULT_PAN_DAMPING);
             CGFloat restPoint = panDistance + inertialModifier;
-            NSLog(@"distance: %f, velocity: %f, modifier: %f, restpoint: %f", panDistance, hVelocity, inertialModifier, restPoint);
+//            NSLog(@"distance: %f, velocity: %f, modifier: %f, restpoint: %f", panDistance, hVelocity, inertialModifier, restPoint);
             
             if (restPoint < (0.0f - self.currentView.bounds.size.width * 0.5f)) {
                 [self animateToNextView:hVelocity];
@@ -268,7 +269,7 @@ CGFloat wraparoundFloat(CGFloat aFloat) {
     return aFloat;
 }
 
-#define BOUNCE_FLOOR 0.2f
+#define BOUNCE_FLOOR 0.3f
 
 CGFloat bouncingFloat(CGFloat aFloat, CGFloat rate) {
     static BOOL reverse;
@@ -307,7 +308,11 @@ UIColor* colorBetweenColors(UIColor *color1, UIColor *color2, CGFloat percentDis
     return [UIColor colorWithRed:r1+rdiff green:g1+gdiff blue:b1+bdiff alpha:a1+adiff];
 }
 
-
+void debugPrintColor(UIColor* color) {
+    CGFloat h, s, b;
+    [color getHue:&h saturation:&s brightness:&b alpha:NULL];
+    NSLog(@"HSB: %f / %f /%f", h, s, b);
+}
 /*
 #pragma mark - Navigation
 
