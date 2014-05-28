@@ -14,7 +14,8 @@
 @interface IKUMenuView ()
 @property (nonatomic) BOOL shouldUpdateConstraints;
 @property (nonatomic, assign) IKUMenuPosition menuPosition;
-@property (strong, nonatomic) NSLayoutConstraint* edgeConstraint;
+@property (weak, nonatomic) NSLayoutConstraint* edgeConstraint;
+@property (strong, nonatomic) NSMutableArray* constraintsWithPadding;
 @end
 
 @implementation IKUMenuView
@@ -28,6 +29,7 @@
         self.items = items;
         self.shouldUpdateConstraints = YES;
         self.menuPosition = menuPosition;
+        self.backgroundColor =[UIColor colorWithWhite:0.0f alpha:0.3f];
     }
     return self;
 }
@@ -51,6 +53,8 @@
 }
 
 
+
+
 #pragma mark - layout
 
 #define MAX_BUTTON_SIZE 64.0f
@@ -60,11 +64,12 @@
 
 
 -(void)updateConstraints {
-    [super updateConstraints];
-
+    
     if (!self.shouldUpdateConstraints) {
+        [super updateConstraints];
         return;
     }
+    
     [self removeConstraints:self.constraints];
 //    so first thing: how big do we make our buttons?
     if (CGRectIsEmpty(self.frame)) {
@@ -83,8 +88,9 @@
     viewHeight = buttonSize * 2 + (2 * EXTERNAL_PADDING);
     hPadding = (self.frame.size.width - (self.items.count * buttonSize)) / (self.items.count + 1);
     
-    [self autoSetDimension:ALDimensionWidth toSize:self.superview.bounds.size.width];
     [self autoSetDimension:ALDimensionHeight toSize:viewHeight];
+    [self autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:0];
+    [self autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
     
     ALEdge pinEdge = (self.menuPosition == IKUMenuPositionTop) ? ALEdgeTop : ALEdgeBottom;
     self.edgeConstraint = [self autoPinEdgeToSuperviewEdge:pinEdge withInset:0.0f];
@@ -122,18 +128,36 @@
     }];
 //    line them up:
     
+//    store button constraints; we set their paddings in layoutsubviews
+    
+   self.constraintsWithPadding = [NSMutableArray array];
+
     __block UIView *firstView = [self.items firstObject];
-    [firstView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:hPadding];
+        [self.constraintsWithPadding addObject:
+         [firstView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:hPadding]];
+
+    
 //    [firstView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     
+
     NSArray *offsetModifiers = [self offsetsForItemsWithCount:self.items.count];
-    
     [self.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UIView *view = (UIView*)obj;
         
 //        first view doesn't need horizonal pinning
         if (![view isEqual:firstView]) {
-          [view autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:firstView withOffset:hPadding];
+//          NSLayoutConstraint * layoutConstraint = [NSLayoutConstraint constraintWithItem:view
+//                                                                               attribute:NSLayoutAttributeLeft
+//                                                                               relatedBy:NSLayoutRelationGreaterThanOrEqual
+//                                                                                  toItem:firstView
+//                                                                               attribute:NSLayoutAttributeRight
+//                                                                              multiplier:1.0f
+//                                                                                constant:hPadding];
+//            
+//
+//            [self addConstraint:layoutConstraint];
+            [self.constraintsWithPadding addObject:
+             [view autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:firstView withOffset:hPadding]];
         }
 
         //        pin height based on calculated offset;
@@ -149,9 +173,31 @@
         
     }];
     self.shouldUpdateConstraints = NO;
+    [super updateConstraints];
 }
 
-
+-(void)layoutSubviews {
+//    set button paddings (for autorotation, e.g.)
+    
+    CGFloat buttonSize, viewHeight, hPadding;
+    
+    CGFloat spaceForPadding = (MIN_BUTTON_PADDING * self.items.count + 1);
+    buttonSize = (self.frame.size.width - spaceForPadding) / self.items.count;
+    
+    //    sane values plz
+    buttonSize = fmin(MAX_BUTTON_SIZE, buttonSize);
+    buttonSize = fmax(MIN_BUTTON_SIZE, buttonSize);
+    viewHeight = buttonSize * 2 + (2 * EXTERNAL_PADDING);
+    
+    hPadding = (self.frame.size.width - (self.items.count * buttonSize)) / (self.items.count + 1);
+    
+    [self.constraintsWithPadding enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLayoutConstraint* constraint = (NSLayoutConstraint*)obj;
+        constraint.constant = hPadding;
+    }];
+    
+    [super layoutSubviews];
+}
 
 #pragma mark - public API
 -(void)setVisible:(BOOL)visible {

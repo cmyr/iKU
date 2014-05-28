@@ -76,7 +76,10 @@
                           delay:0.0f
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         [self layoutHaikuViews];
+                         [self layoutHaikuViewsForOrientation:toInterfaceOrientation];
+                         [self.currentView setNeedsLayout];
+                         [self.topMenu setNeedsLayout];
+                         [self.bottomMenu setNeedsLayout];
                      } completion:NULL];
 }
 
@@ -91,14 +94,14 @@
     self.nextView = self.viewTwo;
     self.currentView.preferredBackgroundColor = [UIColor whiteColor];
     
-//    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
-//    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
+    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
+    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
     
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];
     [self setupMenus];
     
-    [self layoutHaikuViews];
+    [self layoutHaikuViewsForOrientation:self.interfaceOrientation];
     [self prepareNextView];
     
 }
@@ -177,7 +180,7 @@
                          self.currentView = self.nextView;
                          self.nextView = nextView;
                          [self prepareNextView];
-                         [self layoutHaikuViews];
+                         [self layoutHaikuViewsForOrientation:self.interfaceOrientation];
 //                         [self setConstraintsForHaikuViews];
                      }];
 
@@ -211,9 +214,9 @@
      ];
 }
 
--(void)layoutHaikuViews {
+-(void)layoutHaikuViewsForOrientation:(UIInterfaceOrientation)orientation {
 
-    if (UIDeviceOrientationIsLandscape(self.interfaceOrientation)) {
+    if (UIDeviceOrientationIsLandscape(orientation)) {
         self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
     }else {
         self.currentView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
