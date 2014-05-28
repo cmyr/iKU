@@ -25,6 +25,8 @@
 @property (weak, nonatomic) IKUHaikuView *nextView;
 
 @property (strong, nonatomic) IKUMenuView *topMenu;
+@property (strong, nonatomic) IKUMenuView* bottomMenu;
+
 @property (strong, nonatomic) UIPanGestureRecognizer* pan;
 @property (nonatomic) CGPoint initialPanPoint;
 
@@ -80,14 +82,14 @@
     
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];
-    [self setupTopMenu];
+    [self setupMenus];
     
     [self layoutHaikuViews];
     [self prepareNextView];
     
 }
 
--(void)setupTopMenu {
+-(void)setupMenus {
     DKCircleButton *b1 = [[DKCircleButton alloc]init];
     [b1 setTitle:@"b1" forState:UIControlStateNormal];
     b1.animateTap = NO;
@@ -103,10 +105,22 @@
     [b3 setTitle:@"b3" forState:UIControlStateNormal];
     b3.animateTap = NO;
     
+    DKCircleButton *b4 = [[DKCircleButton alloc]init];
+    [b4 setTitle:@"b4" forState:UIControlStateNormal];
+    b4.animateTap = NO;
     
-    self.topMenu = [[IKUMenuView alloc]initWithItems:@[b1, b2] menuPosition:IKUMenuPositionTop];
+    DKCircleButton *b5 = [[DKCircleButton alloc]init];
+    [b5 setTitle:@"b5" forState:UIControlStateNormal];
+    b5.animateTap = NO;
+    
+    
+    self.topMenu = [[IKUMenuView alloc]initWithItems:@[b1, b2, b3] menuPosition:IKUMenuPositionTop];
     self.topMenu.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.bottomMenu = [[IKUMenuView alloc]initWithItems:@[b4,b5] menuPosition:IKUMenuPositionBottom];
+    self.bottomMenu.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.topMenu];
+    [self.view addSubview:self.bottomMenu];
 //    self.topMenu.backgroundColor = [UIColor colorWithRed:0.000 green:0.358 blue:0.000 alpha:1.000];
     
     

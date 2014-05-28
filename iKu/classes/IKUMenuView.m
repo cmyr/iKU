@@ -50,6 +50,8 @@
 #define MAX_BUTTON_SIZE 64.0f
 #define MIN_BUTTON_SIZE 24.0f
 #define MIN_BUTTON_PADDING 4.0f
+#define EXTERNAL_PADDING 20.0f
+
 
 -(void)updateConstraints {
     [self removeConstraints:self.constraints];
@@ -65,13 +67,15 @@
     }
     CGFloat buttonSize, viewHeight, hPadding;
     
-    buttonSize = (self.frame.size.width - (MIN_BUTTON_PADDING * (self.items.count + 1))) / self.items.count;
+    CGFloat spaceForPadding = (MIN_BUTTON_PADDING * self.items.count + 1);
+    
+    buttonSize = (self.frame.size.width - spaceForPadding) / self.items.count;
     
 //    sane values plz
     buttonSize = fmin(MAX_BUTTON_SIZE, buttonSize);
     buttonSize = fmax(MIN_BUTTON_SIZE, buttonSize);
     
-    viewHeight = buttonSize * 2 + (2 * MIN_BUTTON_PADDING);
+    viewHeight = buttonSize * 2 + (2 * EXTERNAL_PADDING);
     hPadding = (self.frame.size.width - (self.items.count * buttonSize)) / (self.items.count + 1);
     
     [self autoSetDimension:ALDimensionWidth toSize:self.superview.bounds.size.width];
@@ -129,7 +133,7 @@
 
         //        pin height based on calculated offset;
         CGFloat offsetModifier = [offsetModifiers[idx]floatValue];
-        CGFloat offset = MIN_BUTTON_PADDING + buttonSize - (buttonSize * offsetModifier);
+        CGFloat offset = EXTERNAL_PADDING + buttonSize - (buttonSize * offsetModifier);
         if (self.menuPosition == IKUMenuPositionTop) {
             [view autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self withOffset:offset];
         }else{
