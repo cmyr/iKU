@@ -69,6 +69,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration
+                          delay:0.0f
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         [self layoutHaikuViews];
+                     } completion:NULL];
+}
+
+
+#pragma mark - view setup
+
 -(void)setupInitialViews {
     _viewOne = [[IKUHaikuView alloc]init];
     _viewTwo = [[IKUHaikuView alloc]init];
@@ -121,18 +133,10 @@
     self.bottomMenu.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.topMenu];
     [self.view addSubview:self.bottomMenu];
+    [self showMenus:NO];
 //    self.topMenu.backgroundColor = [UIColor colorWithRed:0.000 green:0.358 blue:0.000 alpha:1.000];
     
     
-}
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-        [UIView animateWithDuration:duration
-                              delay:0.0f
-                            options:UIViewAnimationOptionBeginFromCurrentState
-                         animations:^{
-                             [self layoutHaikuViews];
-                         } completion:NULL];
 }
 
 #pragma mark - animation and view updating
@@ -205,7 +209,6 @@
      ];
 }
 
-//-(void)setConstraintsForDisplayedView:(IKUHaikuView*)mainView nextView:(IKUHaikuView*)nextView {
 -(void)layoutHaikuViews {
 
     if (UIDeviceOrientationIsLandscape(self.interfaceOrientation)) {
@@ -217,8 +220,21 @@
     self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
 }
 
+#define HIDE_MENUS_DELAY 2.0F
+-(void)showMenus:(BOOL)animated {
+    [self.topMenu setVisible:YES animated:animated];
+    [self.bottomMenu setVisible:YES animated:animated];
+    [self performSelector:@selector(hideMenus:) withObject:nil afterDelay:HIDE_MENUS_DELAY];
+}
 
+//this is 'skipAnimation' in stead of 'animation' because I want to use performselector
+//and this let's me pass nil to animate, which is the most common use-case.
 
+-(void)hideMenus:(BOOL)skipAnimation {
+    BOOL animate = !skipAnimation;
+    [self.topMenu setVisible:NO animated:animate];
+    [self.bottomMenu setVisible:NO animated:animate];
+}
 
 #pragma mark - gesture handling
 

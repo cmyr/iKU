@@ -60,13 +60,12 @@
 
 
 -(void)updateConstraints {
-    [self removeConstraints:self.constraints];
     [super updateConstraints];
 
     if (!self.shouldUpdateConstraints) {
         return;
     }
-                         
+    [self removeConstraints:self.constraints];
 //    so first thing: how big do we make our buttons?
     if (CGRectIsEmpty(self.frame)) {
         self.frame = CGRectMake(0, 0, self.superview.bounds.size.width, self.superview.bounds.size.height);
@@ -162,24 +161,27 @@
         self.edgeConstraint.constant = 0.0f;
     }else {
         self.alpha = 0.0f;
-        self.edgeConstraint.constant = self.bounds.size.height;
+        CGFloat offset = (self.menuPosition == IKUMenuPositionTop) ? -self.bounds.size.height : self.bounds.size.height;
+        self.edgeConstraint.constant = offset;
     }
 }
 
 -(void)setVisible:(BOOL)visible animated:(BOOL)animated {
     if (animated) {
-        [UIView animateWithDuration:0.3f
+        [self.superview layoutIfNeeded];
+        [UIView animateWithDuration:0.5f
                               delay:0
                             options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState)
                          animations:^{
                              self.visible = visible;
+                             [self.superview layoutIfNeeded];
                          } completion:^(BOOL finished) {
-                             self.hidden = visible;
+                             self.hidden = !visible;
                          }];
         
     }else{
         self.visible = visible;
-        self.hidden = visible;
+        self.hidden = !visible;
     }
     
 }
