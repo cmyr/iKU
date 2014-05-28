@@ -67,9 +67,10 @@
 -(void)showStarLabel:(BOOL)visible animated:(BOOL)animated {
     if (animated) {
         self.starLabel.hidden = NO;
+        self.haiku.starred = visible;
         [UIView animateWithDuration:1.0f
                               delay:0.0f
-                            options:0
+                            options:UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
                              [self _showStarLabel:visible];
                          } completion:^(BOOL finished) {
