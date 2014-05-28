@@ -26,8 +26,10 @@
 
 @property (strong, nonatomic) IKUMenuView *topMenu;
 @property (strong, nonatomic) IKUMenuView* bottomMenu;
+@property (nonatomic) BOOL menusAreVisible;
 
 @property (strong, nonatomic) UIPanGestureRecognizer* pan;
+@property (strong, nonatomic) UITapGestureRecognizer* tapGesture;
 @property (nonatomic) CGPoint initialPanPoint;
 
 @end
@@ -220,11 +222,22 @@
     self.nextView.frame = CGRectOffset(self.currentView.frame, self.currentView.frame.size.width, 0);
 }
 
-#define HIDE_MENUS_DELAY 2.0F
--(void)showMenus:(BOOL)animated {
-    [self.topMenu setVisible:YES animated:animated];
-    [self.bottomMenu setVisible:YES animated:animated];
-    [self performSelector:@selector(hideMenus:) withObject:nil afterDelay:HIDE_MENUS_DELAY];
+#define HIDE_MENUS_DELAY 5.0F
+-(void)setMenusAreVisible:(BOOL)menusAreVisible {
+    _menusAreVisible = menusAreVisible;
+
+    if (menusAreVisible) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideMenus:) object:nil];
+        [self performSelector:@selector(hideMenus:) withObject:nil afterDelay:HIDE_MENUS_DELAY];
+    }
+
+}
+
+-(void)showMenus:(BOOL)skipAnimation {
+     BOOL animate = !skipAnimation;
+    [self.topMenu setVisible:YES animated:animate];
+    [self.bottomMenu setVisible:YES animated:animate];
+    self.menusAreVisible = YES;
 }
 
 //this is 'skipAnimation' in stead of 'animation' because I want to use performselector
@@ -234,6 +247,7 @@
     BOOL animate = !skipAnimation;
     [self.topMenu setVisible:NO animated:animate];
     [self.bottomMenu setVisible:NO animated:animate];
+    self.menusAreVisible = NO;
 }
 
 #pragma mark - gesture handling
@@ -242,6 +256,8 @@
 
 -(void)setupGestureRecognizers {
     self.pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGesture:)];
+    self.tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
+    [self.view addGestureRecognizer:self.tapGesture];
     [self.view addGestureRecognizer:self.pan];
 }
 
@@ -279,9 +295,20 @@
             }else {
                 [self animateToOriginalPosition:hVelocity];
             }
+            if (self.menusAreVisible) {
+                [self hideMenus:NO];
+            }
         }
         default:
             break;
+    }
+}
+
+-(void)tapGesture:(UITapGestureRecognizer*)gesture {
+    if (self.menusAreVisible) {
+        [self hideMenus:NO];
+    }else {
+        [self showMenus:NO];
     }
 }
 
