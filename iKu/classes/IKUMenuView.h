@@ -17,8 +17,9 @@ typedef NS_ENUM(NSUInteger, IKUMenuPosition) {
 @interface IKUMenuView : UIView
 @property (strong, nonatomic) NSArray* items;
 @property (nonatomic, readonly) IKUMenuPosition menuPosition;
+@property (nonatomic, readonly, getter = isVisible) BOOL visible;
 
 -(instancetype)initWithItems:(NSArray*)items menuPosition:(IKUMenuPosition)menuPosition;
-
+-(void)setVisible:(BOOL)visible animated:(BOOL)animated;
 
 @end

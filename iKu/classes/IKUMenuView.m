@@ -14,9 +14,12 @@
 @interface IKUMenuView ()
 @property (nonatomic) BOOL shouldUpdateConstraints;
 @property (nonatomic, assign) IKUMenuPosition menuPosition;
+@property (strong, nonatomic) NSLayoutConstraint* edgeConstraint;
 @end
 
 @implementation IKUMenuView
+
+#pragma mark - init and setters/getters
 
 - (instancetype)initWithItems:(NSArray*)items menuPosition:(IKUMenuPosition)menuPosition
 {
@@ -46,6 +49,9 @@
         self.shouldUpdateConstraints = YES;
         }
 }
+
+
+#pragma mark - layout
 
 #define MAX_BUTTON_SIZE 64.0f
 #define MIN_BUTTON_SIZE 24.0f
@@ -82,7 +88,7 @@
     [self autoSetDimension:ALDimensionHeight toSize:viewHeight];
     
     ALEdge pinEdge = (self.menuPosition == IKUMenuPositionTop) ? ALEdgeTop : ALEdgeBottom;
-    [self autoPinEdgeToSuperviewEdge:pinEdge withInset:0.0f];
+    self.edgeConstraint = [self autoPinEdgeToSuperviewEdge:pinEdge withInset:0.0f];
 
 
 //manually set widths and heights here so that we can assign priorities
@@ -146,24 +152,37 @@
     self.shouldUpdateConstraints = NO;
 }
 
-//- (id)initWithFrame:(CGRect)frame
-//{
-//    self = [super initWithFrame:frame];
-//    if (self) {
-//        // Initialization code
-//    }
-//    return self;
-//}
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+
+#pragma mark - public API
+-(void)setVisible:(BOOL)visible {
+    _visible = visible;
+    if (visible) {
+        self.alpha = 1.0f;
+        self.edgeConstraint.constant = 0.0f;
+    }else {
+        self.alpha = 0.0f;
+        self.edgeConstraint.constant = self.bounds.size.height;
+    }
 }
-*/
 
+-(void)setVisible:(BOOL)visible animated:(BOOL)animated {
+    if (animated) {
+        [UIView animateWithDuration:0.3f
+                              delay:0
+                            options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState)
+                         animations:^{
+                             self.visible = visible;
+                         } completion:^(BOOL finished) {
+                             self.hidden = visible;
+                         }];
+        
+    }else{
+        self.visible = visible;
+        self.hidden = visible;
+    }
+    
+}
 #pragma mark - helpers
 /**
  returns an array of @(floats) used to determine y-pos of menu items
