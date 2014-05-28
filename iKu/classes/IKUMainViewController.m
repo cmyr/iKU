@@ -108,26 +108,25 @@
 
 -(void)setupMenus {
     DKCircleButton *b1 = [[DKCircleButton alloc]init];
-    [b1 setTitle:@"b1" forState:UIControlStateNormal];
+    [b1 setTitle:@"✭" forState:UIControlStateNormal];
     b1.animateTap = NO;
-    [b1 addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    b1.tag = 69;
+    [b1 addTarget:self action:@selector(starButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     DKCircleButton *b2 = [[DKCircleButton alloc]init];
-    [b2 setTitle:@"b2" forState:UIControlStateNormal];
+    [b2 setTitle:@"✭✭✭" forState:UIControlStateNormal];
     b2.animateTap = NO;
     [b2 addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     DKCircleButton *b3 = [[DKCircleButton alloc]init];
-    [b3 setTitle:@"b3" forState:UIControlStateNormal];
+    [b3 setTitle:@"?" forState:UIControlStateNormal];
     b3.animateTap = NO;
-    
+
     DKCircleButton *b4 = [[DKCircleButton alloc]init];
-    [b4 setTitle:@"b4" forState:UIControlStateNormal];
+    [b4 setTitle:@"⇪" forState:UIControlStateNormal];
     b4.animateTap = NO;
     
     DKCircleButton *b5 = [[DKCircleButton alloc]init];
-    [b5 setTitle:@"b5" forState:UIControlStateNormal];
+    [b5 setTitle:@"⚛" forState:UIControlStateNormal];
     b5.animateTap = NO;
     
     
@@ -315,6 +314,25 @@
     }
 }
 
+#pragma mark - user interaction
+
+-(void)starButtonPressed:(UIButton*)sender {
+    BOOL isStarred = self.currentView.haiku.isStarred;
+//    UIColor *buttonColor = isStarred ? [UIColor orangeColor] : [UIColor whiteColor];
+    [self.currentView showStarLabel:!isStarred animated:YES];
+}
+
+-(void)helpButtonPressed:(UIButton*)sender {
+    
+}
+
+-(void)listButtonPressed:(UIButton*)sender {
+    
+}
+
+-(void)shareButtonPressed:(UIButton*)sender {
+    
+}
 
 #pragma mark - debug
 

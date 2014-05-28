@@ -29,7 +29,7 @@
         self.items = items;
         self.shouldUpdateConstraints = YES;
         self.menuPosition = menuPosition;
-        self.backgroundColor =[UIColor colorWithWhite:0.0f alpha:0.3f];
+//        self.backgroundColor =[UIColor colorWithWhite:0.0f alpha:0.3f];
     }
     return self;
 }

@@ -10,18 +10,31 @@
 #import "IKUHaiku.h"
 #import <UIView+AutoLayout.h>
 
+@interface IKUHaikuView ()
+@property (strong, nonatomic) UILabel* starLabel;
+@end
+
 @implementation IKUHaikuView
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.starLabel = [[UILabel alloc]init];
+        self.starLabel.text = @"★";
+        self.starLabel.font = [UIFont systemFontOfSize:200.0f];
+        self.starLabel.hidden = YES;
+        self.starLabel.alpha = 0.0f;
+        self.starLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:self.starLabel];
+        
         self.textLabel = [[UILabel alloc]init];
         self.textLabel.numberOfLines = 3;
         self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:32.0f];
         self.textLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:self.textLabel];
+        
 
     }
     return self;
@@ -31,6 +44,7 @@
 -(void)updateConstraints {
     UIEdgeInsets insets = UIEdgeInsetsMake(0, SIDE_PADDING, 0, SIDE_PADDING);
     [self.textLabel autoPinEdgesToSuperviewEdgesWithInsets:insets];
+    [self.starLabel autoCenterInSuperview];
     [super updateConstraints];
 }
 
@@ -46,7 +60,34 @@
     self.textLabel.adjustsFontSizeToFitWidth = YES;
     self.textLabel.minimumScaleFactor = 0.4f;
     [self.textLabel sizeToFit];
+    [self showStarLabel:self.haiku.isStarred animated:NO];
     [super layoutSubviews];
+}
+
+-(void)showStarLabel:(BOOL)visible animated:(BOOL)animated {
+    if (animated) {
+        self.starLabel.hidden = NO;
+        [UIView animateWithDuration:1.0f
+                              delay:0.0f
+                            options:0
+                         animations:^{
+                             [self _showStarLabel:visible];
+                         } completion:^(BOOL finished) {
+                             self.starLabel.hidden = !visible;
+                         }];
+    }else{
+        [self _showStarLabel:visible];
+        self.starLabel.hidden = !visible;
+    }
+}
+
+-(void)_showStarLabel:(BOOL)visible {
+    if (visible) {
+        self.starLabel.alpha = 0.1f;
+    }else {
+        self.starLabel.alpha = 0.0f;
+    }
+    
 }
 
 -(UIColor*)preferredBackgroundColor {
