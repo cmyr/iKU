@@ -94,8 +94,8 @@
     self.nextView = self.viewTwo;
     self.currentView.preferredBackgroundColor = [UIColor whiteColor];
     
-    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
-    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
+//    [self.currentView setBackgroundColor:[UIColor colorWithRed:1.000 green:0.277 blue:0.277 alpha:1.000]];
+//    [self.nextView setBackgroundColor:[UIColor colorWithRed:0.000 green:0.355 blue:1.000 alpha:1.000]];
     
     [self.view addSubview:self.viewOne];
     [self.view addSubview:self.viewTwo];

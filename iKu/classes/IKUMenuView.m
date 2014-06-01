@@ -215,24 +215,17 @@
 -(void)setVisible:(BOOL)visible animated:(BOOL)animated {
     if (animated) {
         [self.superview layoutIfNeeded];
-        
-        if (visible) {
-            self.hidden = NO;
-        }
-        
-         self.visible = visible;
+
         [UIView animateWithDuration:0.5f
                               delay:0
                             options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState)
                          animations:^{
+                              self.visible = visible;
                              [self.superview layoutIfNeeded];
-                         } completion:^(BOOL finished) {
-                             self.hidden = !visible;
-                         }];
+                         } completion:NULL];
         
     } else {
         self.visible = visible;
-        self.hidden = !visible;
     }
     
 }
