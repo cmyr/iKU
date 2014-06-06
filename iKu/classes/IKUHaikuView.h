@@ -16,5 +16,5 @@
 @property (strong, nonatomic) UILabel* textLabel;
 @property (strong, nonatomic) UIColor* preferredBackgroundColor;
 
--(void)showStarLabel:(BOOL)visible animated:(BOOL)animated;
+-(void)starHaiku:(BOOL)visible animated:(BOOL)animated;
 @end

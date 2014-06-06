@@ -319,7 +319,7 @@
 -(void)starButtonPressed:(UIButton*)sender {
     BOOL isStarred = self.currentView.haiku.isStarred;
 //    UIColor *buttonColor = isStarred ? [UIColor orangeColor] : [UIColor whiteColor];
-    [self.currentView showStarLabel:!isStarred animated:YES];
+    [self.currentView starHaiku:!isStarred animated:YES];
 }
 
 -(void)helpButtonPressed:(UIButton*)sender {

@@ -25,6 +25,7 @@
     self = [super init];
     if (self) {
         self.text = dict[@"text"];
+        self.identifier = dict[@"identifier"];
     }
     
     return self;
@@ -56,6 +57,8 @@
         haiku = [NSEntityDescription insertNewObjectForEntityForName:iKUHaikuEntityName inManagedObjectContext:context];
         haiku.text = self.text;
         haiku.identifier = self.identifier;
+        [self saveContext];
+        NSLog(@"added haiku %@", self.identifier);
     }
 }
 
@@ -65,6 +68,8 @@
     
     if (haiku) {
         [context deleteObject:haiku];
+        [self saveContext];
+        NSLog(@"deleted haiku %@", self.identifier);
     }
 }
 
@@ -75,7 +80,7 @@
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:iKUHaikuEntityName];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:iKUHaikuEntityIdentifierKey ascending:YES]];
-    request.predicate = [NSPredicate predicateWithFormat:@"%@ = %@", iKUHaikuEntityIdentifierKey, self.identifier];
+    request.predicate = [NSPredicate predicateWithFormat:@"identifier = %@", iKUHaikuEntityIdentifierKey, self.identifier];
     
     NSArray *matches = [context executeFetchRequest:request error:nil];
     
@@ -89,8 +94,31 @@
     return haiku;
 }
 
+-(NSArray*)_debugFetchAllStoredHaiku {
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:iKUHaikuEntityName];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:iKUHaikuEntityIdentifierKey ascending:YES]];
+    NSError *error = nil;
+    
+    if (error) {
+        NSLog(@"%@", error);
+
+    }
+    
+    return [context executeFetchRequest:request error:&error];
+
+    
+}
+
 -(NSManagedObjectContext*)managedObjectContext {
     IKUAppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     return appDelegate.managedObjectContext;
 }
+
+-(void)saveContext {
+    IKUAppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    [appDelegate saveContext];
+}
+
 @end

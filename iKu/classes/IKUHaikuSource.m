@@ -58,7 +58,10 @@
     [haikuDicts enumerateObjectsWithOptions:0
                                  usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                                      if ([obj isKindOfClass:[NSDictionary class]]) {
-                                         IKUHaiku *newHaiku = [[IKUHaiku alloc]initWithDict:obj];
+//                                         we need to add identifiers, now;
+                                         NSMutableDictionary *haikuDict = [obj mutableCopy];
+                                         haikuDict[@"identifier"] = @(idx);
+                                         IKUHaiku *newHaiku = [[IKUHaiku alloc]initWithDict:haikuDict];
                                          [haikuArray addObject:newHaiku];
                                      }
                                  }];

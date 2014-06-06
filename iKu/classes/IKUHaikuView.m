@@ -60,11 +60,11 @@
     self.textLabel.adjustsFontSizeToFitWidth = YES;
     self.textLabel.minimumScaleFactor = 0.4f;
     [self.textLabel sizeToFit];
-    [self showStarLabel:self.haiku.isStarred animated:NO];
+    [self starHaiku:self.haiku.isStarred animated:NO];
     [super layoutSubviews];
 }
 
--(void)showStarLabel:(BOOL)visible animated:(BOOL)animated {
+-(void)starHaiku:(BOOL)visible animated:(BOOL)animated {
     if (animated) {
         self.starLabel.hidden = NO;
         self.haiku.starred = visible;
