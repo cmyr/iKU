@@ -33,6 +33,8 @@
 		6B8CB17D192D3CE000A119D5 /* iphone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B8CB17C192D3CE000A119D5 /* iphone.storyboard */; };
 		6BA1AF9219350BE60016E7CD /* DKCircleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1AF9119350BE60016E7CD /* DKCircleButton.m */; };
 		6BA1AF9519350C010016E7CD /* IKUMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1AF9419350C010016E7CD /* IKUMenuView.m */; };
+		6BECE95019424D1A00A7E3B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BECE94F19424D1A00A7E3B6 /* CoreData.framework */; };
+		6BECE95319424D4A00A7E3B6 /* haiku.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BECE95119424D4900A7E3B6 /* haiku.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +71,8 @@
 		6BA1AF9119350BE60016E7CD /* DKCircleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCircleButton.m; sourceTree = "<group>"; };
 		6BA1AF9319350C010016E7CD /* IKUMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKUMenuView.h; path = classes/IKUMenuView.h; sourceTree = "<group>"; };
 		6BA1AF9419350C010016E7CD /* IKUMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUMenuView.m; path = classes/IKUMenuView.m; sourceTree = "<group>"; };
+		6BECE94F19424D1A00A7E3B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		6BECE95219424D4A00A7E3B6 /* haiku.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = haiku.xcdatamodel; sourceTree = "<group>"; };
 		B158F8F8B27B467AB5F0CA53 /* libPods-iKu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iKu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -77,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BECE95019424D1A00A7E3B6 /* CoreData.framework in Frameworks */,
 				6B8CB13B192D29A900A119D5 /* CoreGraphics.framework in Frameworks */,
 				6B8CB13D192D29A900A119D5 /* UIKit.framework in Frameworks */,
 				6B8CB139192D29A900A119D5 /* Foundation.framework in Frameworks */,
@@ -120,6 +125,7 @@
 		6B8CB137192D29A900A119D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BECE94F19424D1A00A7E3B6 /* CoreData.framework */,
 				6B8CB138192D29A900A119D5 /* Foundation.framework */,
 				6B8CB13A192D29A900A119D5 /* CoreGraphics.framework */,
 				6B8CB13C192D29A900A119D5 /* UIKit.framework */,
@@ -195,6 +201,7 @@
 		6B8CB16B192D2E9900A119D5 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				6BECE95119424D4900A7E3B6 /* haiku.xcdatamodeld */,
 				6B8CB17C192D3CE000A119D5 /* iphone.storyboard */,
 				6B8CB16C192D2F3100A119D5 /* testhaiku.plist */,
 			);
@@ -336,6 +343,7 @@
 				6B8CB171192D2FB900A119D5 /* IKUHaikuSource.m in Sources */,
 				6B8CB149192D29A900A119D5 /* IKUAppDelegate.m in Sources */,
 				6BA1AF9219350BE60016E7CD /* DKCircleButton.m in Sources */,
+				6BECE95319424D4A00A7E3B6 /* haiku.xcdatamodeld in Sources */,
 				6B8CB17B192D3B4500A119D5 /* IKUMainViewController.m in Sources */,
 				6B8CB145192D29A900A119D5 /* main.m in Sources */,
 			);
@@ -541,6 +549,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6BECE95119424D4900A7E3B6 /* haiku.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6BECE95219424D4A00A7E3B6 /* haiku.xcdatamodel */,
+			);
+			currentVersion = 6BECE95219424D4A00A7E3B6 /* haiku.xcdatamodel */;
+			path = haiku.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6B8CB12D192D29A900A119D5 /* Project object */;
 }
