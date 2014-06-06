@@ -11,6 +11,7 @@
 @interface IKUHaiku : NSObject
 
 @property (strong, nonatomic, readonly) NSString* text;
+@property (strong, nonatomic, readonly) NSNumber* identifier;
 @property (nonatomic, getter = isStarred) BOOL starred;
 
 -(instancetype)initWithDict:(NSDictionary*)dict;
