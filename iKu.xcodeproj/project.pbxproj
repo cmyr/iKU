@@ -35,6 +35,7 @@
 		6BA1AF9519350C010016E7CD /* IKUMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1AF9419350C010016E7CD /* IKUMenuView.m */; };
 		6BECE95019424D1A00A7E3B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BECE94F19424D1A00A7E3B6 /* CoreData.framework */; };
 		6BECE95319424D4A00A7E3B6 /* haiku.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BECE95119424D4900A7E3B6 /* haiku.xcdatamodeld */; };
+		6BECE9561942512C00A7E3B6 /* HaikuStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BECE9551942512C00A7E3B6 /* HaikuStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,8 @@
 		6BA1AF9419350C010016E7CD /* IKUMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IKUMenuView.m; path = classes/IKUMenuView.m; sourceTree = "<group>"; };
 		6BECE94F19424D1A00A7E3B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6BECE95219424D4A00A7E3B6 /* haiku.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = haiku.xcdatamodel; sourceTree = "<group>"; };
+		6BECE9541942512C00A7E3B6 /* HaikuStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HaikuStore.h; path = classes/HaikuStore.h; sourceTree = "<group>"; };
+		6BECE9551942512C00A7E3B6 /* HaikuStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HaikuStore.m; path = classes/HaikuStore.m; sourceTree = "<group>"; };
 		B158F8F8B27B467AB5F0CA53 /* libPods-iKu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iKu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +141,7 @@
 		6B8CB13E192D29A900A119D5 /* iKu */ = {
 			isa = PBXGroup;
 			children = (
+				6BECE9571942516100A7E3B6 /* coredata */,
 				6B8CB16B192D2E9900A119D5 /* resources */,
 				6B8CB16A192D2E8100A119D5 /* classes */,
 				6B8CB147192D29A900A119D5 /* IKUAppDelegate.h */,
@@ -201,11 +205,20 @@
 		6B8CB16B192D2E9900A119D5 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				6BECE95119424D4900A7E3B6 /* haiku.xcdatamodeld */,
 				6B8CB17C192D3CE000A119D5 /* iphone.storyboard */,
 				6B8CB16C192D2F3100A119D5 /* testhaiku.plist */,
 			);
 			name = resources;
+			sourceTree = "<group>";
+		};
+		6BECE9571942516100A7E3B6 /* coredata */ = {
+			isa = PBXGroup;
+			children = (
+				6BECE95119424D4900A7E3B6 /* haiku.xcdatamodeld */,
+				6BECE9541942512C00A7E3B6 /* HaikuStore.h */,
+				6BECE9551942512C00A7E3B6 /* HaikuStore.m */,
+			);
+			name = coredata;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,6 +352,7 @@
 				6B7C61E9193534DB00305677 /* IKUHelpers.m in Sources */,
 				6B2EF105192FA9B30069B81A /* IKUHaikuView.m in Sources */,
 				6BA1AF9519350C010016E7CD /* IKUMenuView.m in Sources */,
+				6BECE9561942512C00A7E3B6 /* HaikuStore.m in Sources */,
 				6B8CB175192D2FC700A119D5 /* IKUHaiku.m in Sources */,
 				6B8CB171192D2FB900A119D5 /* IKUHaikuSource.m in Sources */,
 				6B8CB149192D29A900A119D5 /* IKUAppDelegate.m in Sources */,
